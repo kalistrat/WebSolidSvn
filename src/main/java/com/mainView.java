@@ -63,6 +63,7 @@ public class mainView extends CustomComponent implements View {
         Tab1Cont.setHeight("500px");
 
         VerticalLayout Tab2Cont = new VerticalLayout();
+        Tab2Cont.addComponent(new Label("Здесь был Дима"));
         tabSheet = new TabSheet();
 
         tabSheet.addTab(Tab1Cont, "Дерево моделей", VaadinIcons.FILE_TREE);
