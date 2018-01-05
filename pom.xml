@@ -14,8 +14,8 @@
 	</prerequisites>
 
 	<properties>
-		<vaadin.version>8.1.7</vaadin.version>
-		<vaadin.plugin.version>8.1.7</vaadin.plugin.version>
+		<vaadin.version>7.7.12</vaadin.version>
+		<vaadin.plugin.version>7.7.12</vaadin.plugin.version>
 		<jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -74,6 +74,11 @@
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-icons</artifactId>
+			<version>3.0.1</version>
 		</dependency>
 	</dependencies>
 

@@ -8,6 +8,7 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
+
 /**
  * Created by kalistrat on 19.12.2017.
  */
@@ -65,8 +66,7 @@ public class mainView extends CustomComponent implements View {
 
         VerticalLayout Tab2Cont = new VerticalLayout();
 
-//        Table MainTable = new Table();
-
+        Table table = new Table("Таблица доступна");
 
         //Tab2Cont.addComponent(new Label("Здесь был Дима"));
         tabSheet = new TabSheet();
