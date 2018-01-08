@@ -13242,9 +13242,5 @@ div.v-layout.v-horizontal.v-widget {
 
 .mytheme .blue-layout {
 	background-color: #20B6D3;
-	height: 40px;
-}
-
-.mytheme .no-border table, .mytheme .no-border th, .mytheme .no-border td {
-	border: none;
+	height: 60px;
 }
