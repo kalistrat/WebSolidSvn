@@ -7,6 +7,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import pkgdima.MessageListLayout;
 
 
 /**
@@ -66,9 +67,9 @@ public class mainView extends CustomComponent implements View {
 
         VerticalLayout Tab2Cont = new VerticalLayout();
 
-        Table table = new Table("Таблица доступна");
+        MessageListLayout MsgListLayout1 = new MessageListLayout();
+        Tab2Cont.addComponent(MsgListLayout1);
 
-        //Tab2Cont.addComponent(new Label("Здесь был Дима"));
         tabSheet = new TabSheet();
 
         tabSheet.addTab(Tab1Cont, "Дерево моделей", VaadinIcons.FILE_TREE);
