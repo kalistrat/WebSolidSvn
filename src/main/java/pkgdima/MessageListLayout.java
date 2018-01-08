@@ -95,8 +95,11 @@ hlayout13.addComponent(ContactListTable1);
 /* ContactListTable */
 
 /* MessageListTable */
+Image NewContactImage = new Image();
+NewContactImage.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
+
 MessageListTable MsgListTable1 = new MessageListTable();
-MessageListItem NewMessage = new MessageListItem(null,"Name","Text","Date");
+MessageListItem NewMessage = new MessageListItem(NewContactImage,"Text","Name","Date");
 MsgListTable1.AddMessage(NewMessage);
 hlayout22.addComponent(MsgListTable1);
 

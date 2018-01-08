@@ -15,13 +15,13 @@ private Integer RecordCount ;
 public MessageListTable ()
 {
 Table t1 = new Table("");
-t1.addContainerProperty("ContactListTableColumn1",MessageListItem.class, null);
+t1.addContainerProperty("MessageListTableColumn1",MessageListItem.class, null);
 this.RecordCount = 0;
 this.setContainerDataSource(t1);
 this.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 //this.setSizeUndefined();
 this.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
-this.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
+//this.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
 this.addStyleName("components-inside");
 //this.setSizeFull();
 this.setWidth("100%");

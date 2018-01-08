@@ -10,7 +10,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class MessageListItem extends Table
 {
-Image ContractImage;
+Image ContactImage;
 String MessageText;
 String ContactName;
 String MessageDate;
@@ -35,15 +35,18 @@ t1.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 t1.setColumnExpandRatio("t1ImageColumn",1);
 t1.setColumnExpandRatio("t1NameTextColumn",8);
 t1.setColumnExpandRatio("t1DateColumn",1);
+t1.setPageLength(1);
 
 Table t2 = new Table();
-
 t2.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 t2.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
-
+t2.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
+//t2.addStyleName("components-inside");
 t2.addContainerProperty("t2DateColumn", String.class, null);
 t2.addItem(new Object[]{vContactName},1);
 t2.addItem(new Object[]{vMessageText},2);
+t2.setPageLength(2);
+
 this.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 this.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 //this.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
