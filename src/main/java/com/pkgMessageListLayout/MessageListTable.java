@@ -1,4 +1,4 @@
-package pkgdima;
+package com.pkgMessageListLayout;
 
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
@@ -19,7 +19,7 @@ t1.addContainerProperty("MessageListTableColumn1",MessageListItem.class, null);
 this.RecordCount = 0;
 this.setContainerDataSource(t1);
 this.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
-//this.setSizeUndefined();
+
 this.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 //this.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
 this.addStyleName("components-inside");

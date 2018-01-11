@@ -1,8 +1,7 @@
-package pkgdima;
+package com.pkgMessageListLayout;
 
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
-
 
 /**
 * Created by Dmitriy on 07.01.2018.
@@ -15,21 +14,19 @@ private Integer RecordCount ;
 public ContactListTable ()
 {
 Table t1 = new Table("");
-
 t1.addContainerProperty("ContactListTableColumn1",ContactListItem.class, null);
-//t1.addStyleName("components-inside");
+t1.addStyleName("components-inside");
 this.RecordCount = 0;
 this.setContainerDataSource(t1);
 this.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
-//this.setSizeUndefined();
-//this.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
+
+this.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 this.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
-//this.setSizeFull();
 this.setWidth("100%");
 this.setPageLength(1);
 }
 
-public  Integer GetRecordCount()
+public Integer GetRecordCount()
 {
 return this.RecordCount;
 }

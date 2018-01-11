@@ -13244,3 +13244,7 @@ div.v-layout.v-horizontal.v-widget {
 	background-color: #20B6D3;
 	height: 60px;
 }
+
+.mytheme .hlayout-with-padding {
+	padding: 3px;
+}

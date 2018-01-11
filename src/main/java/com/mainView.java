@@ -1,5 +1,6 @@
 package com;
 
+import com.pkgMessageListLayout.MessageListLayout;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -7,7 +8,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import pkgdima.MessageListLayout;
+
 
 
 /**
@@ -66,10 +67,10 @@ public class mainView extends CustomComponent implements View {
         Tab1Cont.setHeight("500px");
 
         VerticalLayout Tab2Cont = new VerticalLayout();
-
         MessageListLayout MsgListLayout1 = new MessageListLayout();
         Tab2Cont.addComponent(MsgListLayout1);
-
+        Tab2Cont.setHeight("500px");
+        MsgListLayout1.setHeight(Tab2Cont.getHeight(),Tab2Cont.getHeightUnits());
         tabSheet = new TabSheet();
 
         tabSheet.addTab(Tab1Cont, "Дерево моделей", VaadinIcons.FILE_TREE);
@@ -78,7 +79,6 @@ public class mainView extends CustomComponent implements View {
         tabSheet.setSizeFull();
 
         mainViewContent.addComponent(tabSheet);
-
-        setCompositionRoot(mainViewContent);
+         setCompositionRoot(mainViewContent);
     }
 }

@@ -1,4 +1,4 @@
-package pkgdima;
+package com.pkgMessageListLayout;
 
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Table;
@@ -15,14 +15,22 @@ String MessageText;
 String ContactName;
 String MessageDate;
 
-public MessageListItem()
-{
-this(null,null,null,null);
+public MessageListItem() {
+
+}
+
+public void setContactImage(Image vContactImage){
+ContactImage = vContactImage;
 }
 
 public MessageListItem
-(Image vContractImage, String vMessageText, String vContactName, String vMessageDate)
+(Image vContactImage, String vMessageText, String vContactName, String vMessageDate)
 {
+Image vNewImage = new Image();
+vNewImage.setSource(vContactImage.getSource());
+
+vNewImage.setWidth(50, Unit.PIXELS);
+vNewImage.setHeight(50, Unit.PIXELS);
 
 Table t1 = new Table();
 t1.addContainerProperty("t1ImageColumn", Image.class, null);
@@ -32,9 +40,6 @@ t1.addContainerProperty("t1DateColumn", String.class, null);
 t1.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 t1.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 
-t1.setColumnExpandRatio("t1ImageColumn",1);
-t1.setColumnExpandRatio("t1NameTextColumn",8);
-t1.setColumnExpandRatio("t1DateColumn",1);
 t1.setPageLength(1);
 
 Table t2 = new Table();
@@ -47,14 +52,19 @@ t2.addItem(new Object[]{vContactName},1);
 t2.addItem(new Object[]{vMessageText},2);
 t2.setPageLength(2);
 
-this.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
-this.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
+setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
+addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 //this.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
 //this.addStyleName(ValoTheme.TABLE_NO_VERTICAL_LINES) ;
-t1.addItem(new Object[]{vContractImage, t2, vMessageDate},1);
-this.setContainerDataSource(t1);
-this.setWidth("100%");
-this.setPageLength(1);
+t1.addItem(new Object[]{vNewImage, t2, vMessageDate},1);
+setContainerDataSource(t1);
+
+setColumnWidth("setColumnWidth",10);
+//this.setColumnWidth("setColumnWidth",15);
+setColumnWidth("setColumnWidth",20);
+//this.setWidthUndefined();
+setWidth("100%");
+setPageLength(1);
 }
 
 };
