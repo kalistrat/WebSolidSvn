@@ -46,7 +46,7 @@ ContainFilterText = 0;
 /* addContextClickListener */
 
 /* addBlurListener (onLostFocus) */
-this.addBlurListener(new FieldEvents.BlurListener()
+addBlurListener(new FieldEvents.BlurListener()
 {
 public void blur(FieldEvents.BlurEvent event)
 {

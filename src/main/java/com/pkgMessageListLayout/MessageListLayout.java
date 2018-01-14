@@ -1,9 +1,14 @@
 package com.pkgMessageListLayout;
 
-
 import com.vaadin.annotations.Theme;
-import com.vaadin.server.ExternalResource;
+import com.vaadin.server.*;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.themes.ValoTheme;
+
+import java.io.File;
 
 
 /**
@@ -38,6 +43,7 @@ HorizontalLayout hlayout23 = new HorizontalLayout();
 hlayout11.addStyleName("blue-layout");
 hlayout11.setWidth("100%");
 hlayout12.addStyleName("hlayout-with-padding");
+hlayout12.addStyleName("hlayout-with-borders");
 hlayout12.setWidth("100%");
 hlayout13.setWidth("100%");
 
@@ -46,23 +52,22 @@ hlayout21.setWidth("100%");
 hlayout22.setWidth("100%");
 hlayout23.setWidth("100%");
 hlayout23.addStyleName("hlayout-with-padding");
+hlayout23.addStyleName("hlayout-with-borders");
 
-vlayout1.addComponent(hlayout11);
-vlayout1.addComponent(hlayout12);
-vlayout1.addComponent(hlayout13);
+/* hlayout11 */
+/* hlayout11 */
 
-vlayout2.addComponent(hlayout21);
-vlayout2.addComponent(hlayout22);
-vlayout2.addComponent(hlayout23);
+/* hlayout12 */
 
-/* TableForContactFilterTextField */
 SmartTextField ContactFilterTextField = new SmartTextField();
 ContactFilterTextField.setWidth("100%");
 ContactFilterTextField.setValue("Поиск...");
 hlayout12.addComponent(ContactFilterTextField);
-/* TableForContactFilterTextField */
 
-/* ContactListTable */
+/* hlayout12 */
+
+/* hlayout13 */
+
 ContactListTable ContactListTable1 = new ContactListTable();
 ContactListTable1.setWidth("100%");
 
@@ -75,12 +80,16 @@ Image NewContactPicture1 = new Image();
 NewContactPicture1.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 ContactListItem NewContact1 = new ContactListItem (NewContactPicture1, "Contact1 Name1");
 ContactListTable1.AddContactItem (NewContact1);
-
-//ContactListTable1.setPageLength(ContactListTable1.GetRecordCount());
 hlayout13.addComponent(ContactListTable1);
-/* ContactListTable */
 
-/* MessageListTable */
+/* hlayout13 */
+
+
+/* hlayout21 */
+/* hlayout21 */
+
+/* hlayout22 */
+
 Image NewContactImage = new Image();
 NewContactImage.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 MessageListTable MsgListTable1 = new MessageListTable();
@@ -88,16 +97,53 @@ MessageListItem NewMessage = new MessageListItem(NewContactImage,"Text","Name","
 MsgListTable1.AddMessage(NewMessage);
 hlayout22.addComponent(MsgListTable1);
 
-/* MessageListTable */
+/* hlayout22 */
 
-/*  MessageTextArea */
+/* hlayout23 */
+Button ChooseFilesButton = new Button("");
+Button SendMessageButton = new Button("Отправить");
+
+String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+
+// Image as a file resource
+FileResource resource = new FileResource(new File(basepath + "/VAADIN/themes/mytheme/paperclip.ico"));
+
+ChooseFilesButton.setIcon(resource);
+ChooseFilesButton.setWidth("40px");
+SendMessageButton.setWidth("110px");
+ChooseFilesButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
 
 TextArea MessageTextArea = new TextArea();
-// MessageTextArea.setWidth("100%");
+MessageTextArea.setWidth("100%");
 MessageTextArea.setRows(1);
-MessageTextArea.setSizeFull();
-hlayout23.addComponent(MessageTextArea);
-/*  MessageTextArea */
+//MessageTextArea.setSizeFull();
+
+Table MessageTextAreaTable = new Table ();
+MessageTextAreaTable.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
+MessageTextAreaTable.addContainerProperty("MessageTextAreaTableTextAreaColumn", TextArea.class, null);
+MessageTextAreaTable.addContainerProperty("MessageTextAreaTableChooseFilesButton", Button.class, null);
+MessageTextAreaTable.addContainerProperty("MessageTextAreaTableSendMessageButton", Button.class, null);
+
+MessageTextAreaTable.setColumnWidth("MessageTextAreaTableTextAreaColumn", 500);
+MessageTextAreaTable.setColumnWidth("MessageTextAreaTableChooseFilesButton", 50);
+MessageTextAreaTable.setColumnWidth("MessageTextAreaTableSendMessageButton", 120);
+
+MessageTextAreaTable.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
+MessageTextAreaTable.addStyleName(ValoTheme.TABLE_NO_VERTICAL_LINES) ;
+MessageTextAreaTable.setWidth("100%");
+MessageTextAreaTable.addItem(new Object[]{MessageTextArea, ChooseFilesButton, SendMessageButton},1);
+MessageTextAreaTable.setPageLength(1);
+hlayout23.addComponent(MessageTextAreaTable);
+
+/* hlayout23 */
+
+vlayout1.addComponent(hlayout11);
+vlayout1.addComponent(hlayout12);
+vlayout1.addComponent(hlayout13);
+
+vlayout2.addComponent(hlayout21);
+vlayout2.addComponent(hlayout22);
+vlayout2.addComponent(hlayout23);
 
 this.addComponent(HrSplitPanel);
 }

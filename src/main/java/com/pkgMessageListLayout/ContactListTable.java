@@ -1,5 +1,6 @@
 package com.pkgMessageListLayout;
 
+import com.vaadin.data.Property;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -15,26 +16,40 @@ public ContactListTable ()
 {
 Table t1 = new Table("");
 t1.addContainerProperty("ContactListTableColumn1",ContactListItem.class, null);
-t1.addStyleName("components-inside");
-this.RecordCount = 0;
-this.setContainerDataSource(t1);
-this.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
+RecordCount = 0;
+setContainerDataSource(t1);
+setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 
-this.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
-this.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
-this.setWidth("100%");
-this.setPageLength(1);
+addStyleName(ValoTheme.TABLE_BORDERLESS) ;
+addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
+setWidth("100%");
+setPageLength(1);
+
+// Allow selecting items from the table.
+setSelectable(true);
+
+// Send changes in selection immediately to server.
+setImmediate(true);
+
+addValueChangeListener(new Property.ValueChangeListener()
+{
+@Override public void valueChange(Property.ValueChangeEvent valueChangeEvent)
+{
+System.out.println(getValue().toString());
+}
+});
+
 }
 
 public Integer GetRecordCount()
 {
-return this.RecordCount;
+return RecordCount;
 }
 
 public void AddContactItem ( ContactListItem NewContact)
 {
-this.addItem(new Object[]{NewContact}, this.RecordCount + 1);
-this.RecordCount = this.RecordCount + 1;
-this.setPageLength(this.RecordCount);
+addItem(new Object[]{NewContact}, RecordCount + 1);
+RecordCount = RecordCount + 1;
+setPageLength(RecordCount);
 }
 }

@@ -1,7 +1,9 @@
 package com.pkgMessageListLayout;
 
 import com.vaadin.ui.Image;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -15,13 +17,11 @@ String MessageText;
 String ContactName;
 String MessageDate;
 
-public MessageListItem() {
+public MessageListItem()
+{
 
 }
 
-public void setContactImage(Image vContactImage){
-ContactImage = vContactImage;
-}
 
 public MessageListItem
 (Image vContactImage, String vMessageText, String vContactName, String vMessageDate)
@@ -48,6 +48,7 @@ t2.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 t2.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
 //t2.addStyleName("components-inside");
 t2.addContainerProperty("t2DateColumn", String.class, null);
+
 t2.addItem(new Object[]{vContactName},1);
 t2.addItem(new Object[]{vMessageText},2);
 t2.setPageLength(2);

@@ -13248,3 +13248,7 @@ div.v-layout.v-horizontal.v-widget {
 .mytheme .hlayout-with-padding {
 	padding: 3px;
 }
+
+.mytheme .hlayout-with-borders {
+	border: 1px lightgray solid;
+}

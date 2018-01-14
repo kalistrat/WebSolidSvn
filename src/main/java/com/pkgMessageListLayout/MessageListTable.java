@@ -16,26 +16,26 @@ public MessageListTable ()
 {
 Table t1 = new Table("");
 t1.addContainerProperty("MessageListTableColumn1",MessageListItem.class, null);
-this.RecordCount = 0;
-this.setContainerDataSource(t1);
-this.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
+RecordCount = 0;
+setContainerDataSource(t1);
+setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 
-this.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
-//this.addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
-this.addStyleName("components-inside");
-//this.setSizeFull();
-this.setWidth("100%");
+addStyleName(ValoTheme.TABLE_BORDERLESS) ;
+//addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
+addStyleName("components-inside");
+//setSizeFull();
+setWidth("100%");
 }
 
 public  Integer GetRecordCount()
 {
-return this.RecordCount;
+return RecordCount;
 }
 
 public void AddMessage (MessageListItem NewMessage)
 {
-this.addItem(new Object[]{NewMessage}, this.RecordCount + 1);
-this.RecordCount = this.RecordCount + 1;
-this.setPageLength(this.RecordCount);
+addItem(new Object[]{NewMessage}, RecordCount + 1);
+RecordCount = RecordCount + 1;
+setPageLength(RecordCount);
 }
 }
