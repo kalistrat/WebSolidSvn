@@ -29,8 +29,8 @@ public MessageListItem
 Image vNewImage = new Image();
 vNewImage.setSource(vContactImage.getSource());
 
-vNewImage.setWidth(50, Unit.PIXELS);
-vNewImage.setHeight(50, Unit.PIXELS);
+vNewImage.setWidth(40, Unit.PIXELS);
+vNewImage.setHeight(40, Unit.PIXELS);
 
 Table t1 = new Table();
 t1.addContainerProperty("t1ImageColumn", Image.class, null);

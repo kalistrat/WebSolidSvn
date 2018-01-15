@@ -99,8 +99,8 @@ VLinkLayout.addComponent(link);
 Image NewContactImage = new Image();
 NewContactImage.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 MessageListTable MsgListTable1 = new MessageListTable();
-MessageListItem2 NewMessage = new MessageListItem2(NewContactImage,"Text","Name","11.01.2017 23:59:59", VLinkLayout);
-MsgListTable1.AddMessage2(NewMessage);
+MessageListItem3 NewMessage = new MessageListItem3(NewContactImage,"select * from table where condition","Ivanoc Ivan Sergeevich","11.01.2017 23:59:59", VLinkLayout);
+MsgListTable1.AddMessage3(NewMessage);
 hlayout22.addComponent(MsgListTable1);
 
 /* hlayout22 */
@@ -130,9 +130,9 @@ MessageTextAreaTable.addContainerProperty("MessageTextAreaTableTextAreaColumn", 
 MessageTextAreaTable.addContainerProperty("MessageTextAreaTableChooseFilesButton", Button.class, null);
 MessageTextAreaTable.addContainerProperty("MessageTextAreaTableSendMessageButton", Button.class, null);
 
-MessageTextAreaTable.setColumnWidth("MessageTextAreaTableTextAreaColumn", 500);
+MessageTextAreaTable.setColumnWidth("MessageTextAreaTableTextAreaColumn", 700);
 MessageTextAreaTable.setColumnWidth("MessageTextAreaTableChooseFilesButton", 50);
-MessageTextAreaTable.setColumnWidth("MessageTextAreaTableSendMessageButton", 120);
+MessageTextAreaTable.setColumnWidth("MessageTextAreaTableSendMessageButton", 150);
 
 MessageTextAreaTable.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 MessageTextAreaTable.addStyleName(ValoTheme.TABLE_NO_VERTICAL_LINES) ;

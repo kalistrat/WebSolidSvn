@@ -15,7 +15,7 @@ private Integer RecordCount ;
 public MessageListTable ()
 {
 Table t1 = new Table("");
-t1.addContainerProperty("MessageListTableColumn1",MessageListItem2.class, null);
+t1.addContainerProperty("MessageListTableColumn1",MessageListItem3.class, null);
 RecordCount = 0;
 setContainerDataSource(t1);
 setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
@@ -47,4 +47,10 @@ RecordCount = RecordCount + 1;
 setPageLength(RecordCount);
 }
 
+public void AddMessage3 (MessageListItem3 NewMessage)
+{
+addItem(new Object[]{NewMessage}, RecordCount + 1);
+RecordCount = RecordCount + 1;
+setPageLength(RecordCount);
+}
 }
