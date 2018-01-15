@@ -89,12 +89,18 @@ hlayout13.addComponent(ContactListTable1);
 /* hlayout21 */
 
 /* hlayout22 */
+VerticalLayout VLinkLayout = new VerticalLayout();
+VLinkLayout.setWidth("100%");
 
+Link link = new Link("Take me a away to a faraway land",         new ExternalResource("http://vaadin.com/"));
+link.setTargetName("_blank");
+
+VLinkLayout.addComponent(link);
 Image NewContactImage = new Image();
 NewContactImage.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 MessageListTable MsgListTable1 = new MessageListTable();
-MessageListItem NewMessage = new MessageListItem(NewContactImage,"Text","Name","11.01.2017 23:59:59");
-MsgListTable1.AddMessage(NewMessage);
+MessageListItem2 NewMessage = new MessageListItem2(NewContactImage,"Text","Name","11.01.2017 23:59:59", VLinkLayout);
+MsgListTable1.AddMessage2(NewMessage);
 hlayout22.addComponent(MsgListTable1);
 
 /* hlayout22 */
