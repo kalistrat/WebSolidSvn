@@ -7,6 +7,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
+import java.sql.*;
+
 
 /**
  * Created by kalistrat on 19.12.2017.
@@ -53,8 +55,40 @@ public class loginView extends CustomComponent implements View {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 String username = LogInField.getValue();
-                String password = PassField.getValue();
-                String db_Password = "7";
+                String password = staticMethods.sha256(PassField.getValue());
+                String db_Password = "";
+
+                try {
+
+                    Class.forName(staticMethods.JDBC_DRIVER);
+                    Connection conn = DriverManager.getConnection(
+                            staticMethods.DB_URL
+                            ,staticMethods.USER
+                            ,staticMethods.PASS
+                    );
+
+
+                    CallableStatement CheckUserStmt = conn.prepareCall("{? = call f_get_user_password(?)}");
+                    CheckUserStmt.registerOutParameter (1, Types.VARCHAR);
+                    CheckUserStmt.setString(2, username);
+
+                    CheckUserStmt.execute();
+                    db_Password = CheckUserStmt.getString(1);
+
+                    conn.close();
+                } catch(SQLException SQLe){
+                    //Handle errors for JDBC
+                    SQLe.printStackTrace();
+                }catch(Exception e1){
+                    //Handle errors for Class.forName
+                    e1.printStackTrace();
+                }
+
+                if (db_Password == null) {
+                    db_Password = "";
+                }
+
+                //System.out.println("password sha : " + password);
 
                 if (db_Password.equals(password) && !password.equals("")) {
 
