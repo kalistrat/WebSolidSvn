@@ -99,8 +99,8 @@ VLinkLayout.addComponent(link);
 Image NewContactImage = new Image();
 NewContactImage.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 MessageListTable MsgListTable1 = new MessageListTable();
-MessageListItem3 NewMessage = new MessageListItem3(NewContactImage,"select * from table where condition","Ivanoc Ivan Sergeevich","11.01.2017 23:59:59", VLinkLayout);
-MsgListTable1.AddMessage3(NewMessage);
+MessageListItem NewMessage = new MessageListItem(NewContactImage,"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.","Ivanov Ivan Sergeevich","11.01.2017 23:59:59", VLinkLayout,1);
+MsgListTable1.AddMessage(NewMessage);
 hlayout22.addComponent(MsgListTable1);
 
 /* hlayout22 */

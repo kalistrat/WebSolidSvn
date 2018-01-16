@@ -13252,3 +13252,12 @@ div.v-layout.v-horizontal.v-widget {
 .mytheme .hlayout-with-borders {
 	border: 1px lightgray solid;
 }
+
+.mytheme .text-wrapping {
+	word-wrap: break-word;
+	white-space: -moz-pre-wrap;
+}
+
+.mytheme .messagenamelabel-with-color {
+	color: blue;
+}

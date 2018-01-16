@@ -51,6 +51,17 @@ padding: 3px;
 border: 1px lightgray solid;
 }
 
+.text-wrapping
+{
+word-wrap: break-word; /* IE  */
+white-space: -moz-pre-wrap; /* Firefox */
+}
+
+.messagenamelabel-with-color
+{
+color:blue;
+}
+
 }
 
 
