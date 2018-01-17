@@ -14,7 +14,7 @@ import java.security.MessageDigest;
 public class staticMethods {
 
     static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    static final String DB_URL = "jdbc:oracle:thin:@172.16.98.16:1521/orcl";
+    static final String DB_URL = "jdbc:oracle:thin:@0.0.0.0:1521/orcl";
     static final String USER = "solid";
     static final String PASS = "solidweb";
 
