@@ -1,6 +1,8 @@
 package com;
 
 import com.pkgMessageListLayout.MessageListLayout;
+import com.pkgUserTree.tTree;
+import com.pkgUserTree.tTreeContentLayout;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -18,6 +20,7 @@ public class mainView extends CustomComponent implements View {
     public static final String NAME = "";
 
     String currentUser;
+    public tTreeContentLayout TreeContentUsr;
 
     Button LogOutButton = new Button("Выйти", new Button.ClickListener() {
         @Override
@@ -56,6 +59,15 @@ public class mainView extends CustomComponent implements View {
 
         HorizontalSplitPanel treeSection = new HorizontalSplitPanel();
 
+        tTree modelTree = new tTree(currentUser,this);
+        modelTree.addStyleName("CaptionTree");
+        modelTree.setSizeFull();
+
+        treeSection.addComponent(modelTree);
+
+        TreeContentUsr = new tTreeContentLayout(currentUser,modelTree);
+        treeSection.addComponent(TreeContentUsr);
+
         treeSection.setSizeFull();
         treeSection.setSplitPosition(35, Unit.PERCENTAGE);
 
@@ -65,6 +77,7 @@ public class mainView extends CustomComponent implements View {
         Tab1Cont.addComponent(treeSection);
         Tab1Cont.setWidth("100%");
         Tab1Cont.setHeight("500px");
+        Tab1Cont.setMargin(true);
 
         VerticalLayout Tab2Cont = new VerticalLayout();
         MessageListLayout MsgListLayout1 = new MessageListLayout();

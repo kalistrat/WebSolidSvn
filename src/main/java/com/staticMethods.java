@@ -13,10 +13,10 @@ import java.security.MessageDigest;
  */
 public class staticMethods {
 
-    static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    static final String DB_URL = "jdbc:oracle:thin:@0.0.0.0:1521/orcl";
-    static final String USER = "solid";
-    static final String PASS = "solidweb";
+    static public final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+    static public final String DB_URL = "jdbc:oracle:thin:@0.0.0.0:1521/orcl";
+    static public final String USER = "solid";
+    static public final String PASS = "solidweb";
 
     public static Document loadXMLFromString(String xml) throws Exception
     {
