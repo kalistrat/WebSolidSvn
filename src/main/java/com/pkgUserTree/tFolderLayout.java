@@ -126,43 +126,11 @@ public class tFolderLayout extends VerticalLayout {
         DeleteSubTreeButton.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
         DeleteSubTreeButton.addStyleName("TopButton");
 
-        DeleteSubTreeButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                if (tParentContentLayout.GetParentLeafById(tCurrentLeafId)!=0) {
-                    UI.getCurrent().addWindow(new tFolderDeleteWindow(tCurrentLeafId
-                            ,tParentContentLayout
-                    ));
-                } else {
-                    Notification.show(null,
-                            "Корневой каталог не может быть изменён",
-                            Notification.Type.TRAY_NOTIFICATION);
-                }
-            }
-        });
 
         EditSubTreeNameButton = new Button();
         EditSubTreeNameButton.setIcon(VaadinIcons.EDIT);
         EditSubTreeNameButton.addStyleName(ValoTheme.BUTTON_SMALL);
         EditSubTreeNameButton.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
-
-        EditSubTreeNameButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-
-                if (tParentContentLayout.GetParentLeafById(tCurrentLeafId)!=0) {
-                    UI.getCurrent().addWindow(new tChangeNameWindow(tCurrentLeafId
-                            ,tParentContentLayout
-                            ,TopLabel
-                            ,null
-                    ));
-                } else {
-                    Notification.show(null,
-                            "Корневой каталог не может быть изменён",
-                            Notification.Type.TRAY_NOTIFICATION);
-                }
-            }
-        });
 
         MenuBar EditFolderMenu = new MenuBar();
 
@@ -177,9 +145,10 @@ public class tFolderLayout extends VerticalLayout {
 
                     if (tCurrentLeafId == 1) {
 
-                        UI.getCurrent().addWindow(new tAddFolderWindow(tCurrentLeafId
-                                , tParentContentLayout
-                        ));
+                        Notification.show(null,
+                                "Здесь должно быть что-то",
+                                Notification.Type.TRAY_NOTIFICATION);
+
 
                     } else {
                         Notification.show(null,
@@ -190,9 +159,11 @@ public class tFolderLayout extends VerticalLayout {
                 }  else {
 
                     if (tParentContentLayout.GetParentLeafById(tCurrentLeafId)!=0) {
-                        UI.getCurrent().addWindow(new tAddDeviceWindow(tCurrentLeafId
-                                ,tParentContentLayout
-                        ));
+
+                        Notification.show(null,
+                                "Здесь должно быть что-то",
+                                Notification.Type.TRAY_NOTIFICATION);
+
                     } else {
                         Notification.show(null,
                                 "В корневой каталог нельзя добавлять устройства, только контроллеры",
@@ -254,13 +225,13 @@ public class tFolderLayout extends VerticalLayout {
 
 
         if (tParentContentLayout.GetParentLeafById(tCurrentLeafId)!=0) {
-            tFolderPrefsFormLayout FolderPrefLayout = new tFolderPrefsFormLayout(tCurrentLeafId, tParentContentLayout.iUserLog);
-            FolderPrefLayout.setMargin(true);
-            FolderPrefLayout.setSizeFull();
+            VerticalLayout charactersLayout = new VerticalLayout();
+            charactersLayout.setMargin(true);
+            charactersLayout.setSizeFull();
 
             TabSheet FolderTabSheet = new TabSheet();
-            FolderTabSheet.addTab(FolderContentLayout, "Дочерние устройства", VaadinIcons.CLUSTER,0);
-            FolderTabSheet.addTab(FolderPrefLayout, "Настройки контроллера", VaadinIcons.COGS,1);
+            FolderTabSheet.addTab(FolderContentLayout, "Дочерние модели", VaadinIcons.CLUSTER,0);
+            FolderTabSheet.addTab(charactersLayout, "Xарактеритики", VaadinIcons.COGS,1);
             FolderTabSheet.addStyleName(ValoTheme.TABSHEET_COMPACT_TABBAR);
             FolderTabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
             FolderTabSheet.setSizeFull();

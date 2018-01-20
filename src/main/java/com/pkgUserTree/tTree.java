@@ -11,6 +11,12 @@ import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 import java.sql.*;
 
 /**
@@ -19,11 +25,13 @@ import java.sql.*;
 public class tTree extends Tree {
 
     public HierarchicalContainer TreeContainer;
+    private String userLog;
 
 
     public tTree(String eUserLog,com.mainView eMainView){
 
         TreeContainer = new HierarchicalContainer();
+        userLog = eUserLog;
 
         TreeContainer.addContainerProperty(1, Integer.class, null);
         TreeContainer.addContainerProperty(2, Integer.class, null);
@@ -33,9 +41,7 @@ public class tTree extends Tree {
         TreeContainer.addContainerProperty(6, Integer.class, null);
         TreeContainer.addContainerProperty(7, String.class, null);
 
-
-        tTreeGetData(eUserLog);
-
+        setUserTreeData();
         setItemCaptionPropertyId(4);
 
         setContainerDataSource(this.TreeContainer);
@@ -46,7 +52,6 @@ public class tTree extends Tree {
 
         }
 
-
         for (Object id : this.TreeContainer.getItemIds()){
             if (!this.TreeContainer.hasChildren(id))
                 this.TreeContainer.setChildrenAllowed(id, false);
@@ -54,8 +59,6 @@ public class tTree extends Tree {
 
 
         this.select(1);
-
-        //this.addStyleName("captiontree");
 
         this.addValueChangeListener(new ValueChangeListener() {
             @Override
@@ -70,10 +73,9 @@ public class tTree extends Tree {
 
     }
 
-    public void tTreeGetData(String qUserLog){
-
-
+    private String getXMLUserTreeData(){
         try {
+
             Class.forName(staticMethods.JDBC_DRIVER);
             Connection Con = DriverManager.getConnection(
                     staticMethods.DB_URL
@@ -81,88 +83,91 @@ public class tTree extends Tree {
                     , staticMethods.PASS
             );
 
-            String TreeSql = "select udt.user_devices_tree_id\n" +
-                    ",udt.leaf_id\n" +
-                    ",ifnull(udt.parent_leaf_id,0)\n" +
-                    ",udt.leaf_name\n" +
-                    ",ifnull(act.icon_code,'FOLDER') icon_code\n" +
-                    ",ifnull(udt.user_device_id,0) user_device_id\n" +
-                    ",act.action_type_name\n" +
-                    "from user_devices_tree udt\n" +
-                    "join users u on u.user_id=udt.user_id\n" +
-                    "left join user_device ud on ud.user_device_id=udt.user_device_id\n" +
-                    "left join action_type act on act.action_type_id=ud.action_type_id\n" +
-                    "where u.user_log=?\n" +
-                    "order by udt.leaf_id";
-
-            PreparedStatement TreeSqlStmt = Con.prepareStatement(TreeSql);
-            TreeSqlStmt.setString(1,qUserLog);
-
-
-            ResultSet TreeSqlRs = TreeSqlStmt.executeQuery();
-
-            while (TreeSqlRs.next()) {
-
-                Item newItem = TreeContainer.addItem(TreeSqlRs.getInt(2));
-                Integer UsrDevTreeId = TreeSqlRs.getInt(1);
-                Integer UsrLeafId = TreeSqlRs.getInt(2);
-                Integer UsrParentLeafId = TreeSqlRs.getInt(3);
-                String UsrLeafName = TreeSqlRs.getString(4);
-                String UsrLeafIcon = TreeSqlRs.getString(5);
-                Integer UsrDeviceId = TreeSqlRs.getInt(6);
-                String UsrActionType = TreeSqlRs.getString(7);
-
-                newItem.getItemProperty(1).setValue(UsrDevTreeId);
-                newItem.getItemProperty(2).setValue(UsrLeafId);
-                newItem.getItemProperty(3).setValue(UsrParentLeafId);
-                newItem.getItemProperty(4).setValue(UsrLeafName);
-                newItem.getItemProperty(5).setValue(UsrLeafIcon);
-                newItem.getItemProperty(6).setValue(UsrDeviceId);
-                newItem.getItemProperty(7).setValue(UsrActionType);
-                //FontAwesome.SIGN_IN
-                //Button v = new Button("ere");
-                //v.setIcon();
-
-            }
-
-
+            CallableStatement Stmt = Con.prepareCall("{? = call pkg_user_model_tree.f_get_user_tree(?)}");
+            Stmt.registerOutParameter(1, Types.CLOB);
+            Stmt.setString(2,userLog);
+            Stmt.execute();
+            //Clob CondValue = Stmt.getClob(1);
+            //System.out.println("getXMLStateData : CondValue : " + CondValue);
+            String resultStr = staticMethods.clobToString(Stmt.getClob(1));
             Con.close();
+            return resultStr;
 
-        } catch (SQLException se3) {
+        }catch(SQLException se){
             //Handle errors for JDBC
-            se3.printStackTrace();
-        } catch (Exception e13) {
+            se.printStackTrace();
+            return null;
+        }catch(Exception e) {
             //Handle errors for Class.forName
-            e13.printStackTrace();
+            e.printStackTrace();
+            return null;
         }
-
-        //String s1 = (String) iTreeContainer.getItem(1).getItemProperty(4).getValue();
-
-
-        for (int i = 0; i < TreeContainer.size(); i++){
-
-            if (((Integer) TreeContainer.getItem(i+1).getItemProperty(3).getValue()).intValue() != 0) {
-                TreeContainer.setParent(i+1, TreeContainer.getItem(i+1).getItemProperty(3).getValue());
-            }
-
-        }
-
-        for (int j=1;j<TreeContainer.size()+1;j++) {
-            String IconStr =  (String) TreeContainer.getItem(j).getItemProperty(5).getValue();
-
-            if (IconStr.equals("FOLDER")) {
-                setItemIcon(j, VaadinIcons.FOLDER);
-            }
-            if (IconStr.equals("CUBE")) {
-                setItemIcon(j, FontAwesome.TACHOMETER);
-            }
-            if (IconStr.equals("CUBES")) {
-                setItemIcon(j, VaadinIcons.AUTOMATION);
-            }
-        }
-
     }
 
+    public void setUserTreeData(){
 
+        try {
+
+            Document xmlDocument = staticMethods.loadXMLFromString(getXMLUserTreeData());
+
+            Node userTreeNode = (Node) XPathFactory.newInstance().newXPath()
+                    .compile("/USER_TREE_DATA").evaluate(xmlDocument, XPathConstants.NODE);
+
+            NodeList treeLeafDataList = userTreeNode.getChildNodes();
+
+            for (int i = 0; i < treeLeafDataList.getLength(); i++) {
+                Item newItem = TreeContainer.addItem(i+1);
+                NodeList treeLeafData = treeLeafDataList.item(i).getChildNodes();
+                for (int j = 0; j < treeLeafData.getLength(); j++) {
+                    if (treeLeafData.item(j).getNodeName().equals("USER_MODEL_TREE_ID")) {
+                        newItem.getItemProperty(1).setValue(Integer.parseInt(treeLeafData.item(j).getTextContent()));
+                    } else if (treeLeafData.item(j).getNodeName().equals("LEAF_ID")) {
+                        newItem.getItemProperty(2).setValue(Integer.parseInt(treeLeafData.item(j).getTextContent()));
+                    } else if (treeLeafData.item(j).getNodeName().equals("PARENT_LEAF_ID")) {
+                        newItem.getItemProperty(3).setValue(Integer.parseInt(treeLeafData.item(j).getTextContent()));
+                    } else if (treeLeafData.item(j).getNodeName().equals("LEAF_NAME")) {
+                        newItem.getItemProperty(4).setValue(treeLeafData.item(j).getTextContent());
+                    } else if (treeLeafData.item(j).getNodeName().equals("ICON_CODE")) {
+                        newItem.getItemProperty(5).setValue(treeLeafData.item(j).getTextContent());
+                        newItem.getItemProperty(7).setValue(treeLeafData.item(j).getTextContent());
+                    } else if (treeLeafData.item(j).getNodeName().equals("USER_MODEL_ID")) {
+                        newItem.getItemProperty(6).setValue(Integer.parseInt(treeLeafData.item(j).getTextContent()));
+                    }
+                }
+            }
+
+            for (int i = 0; i < TreeContainer.size(); i++){
+
+                if (((Integer) TreeContainer.getItem(i+1).getItemProperty(3).getValue()).intValue() != 0) {
+                    TreeContainer.setParent(i+1, TreeContainer.getItem(i+1).getItemProperty(3).getValue());
+                }
+
+            }
+
+            for (int j=1;j<TreeContainer.size()+1;j++) {
+                String IconStr =  (String) TreeContainer.getItem(j).getItemProperty(5).getValue();
+
+                if (IconStr.equals("FOLDER")) {
+                    setItemIcon(j, VaadinIcons.FOLDER);
+                }
+                if (IconStr.equals("PART")) {
+                    setItemIcon(j, FontAwesome.CUBE);
+                }
+                if (IconStr.equals("ASSEMBLY")) {
+                    setItemIcon(j, VaadinIcons.CUBES);
+                }
+                if (IconStr.equals("DOCUMENT")) {
+                    setItemIcon(j, VaadinIcons.FILE);
+                }
+                if (IconStr.equals("COMPLEX")) {
+                    setItemIcon(j, VaadinIcons.QUESTION_CIRCLE);
+                }
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }

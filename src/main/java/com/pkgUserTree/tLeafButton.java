@@ -24,11 +24,17 @@ public class tLeafButton extends Button {
         if (iButtonIconCode.equals("FOLDER")) {
             this.setIcon(VaadinIcons.FOLDER);
         }
-        if (iButtonIconCode.equals("TACHOMETER")) {
-            this.setIcon(FontAwesome.TACHOMETER);
+        if (iButtonIconCode.equals("PART")) {
+            this.setIcon(FontAwesome.CUBE);
         }
-        if (iButtonIconCode.equals("AUTOMATION")) {
-            this.setIcon(VaadinIcons.AUTOMATION);
+        if (iButtonIconCode.equals("ASSEMBLY")) {
+            this.setIcon(VaadinIcons.CUBES);
+        }
+        if (iButtonIconCode.equals("DOCUMENT")) {
+            this.setIcon(VaadinIcons.FILE);
+        }
+        if (iButtonIconCode.equals("COMPLEX")) {
+            this.setIcon(VaadinIcons.QUESTION_CIRCLE);
         }
 
         this.addClickListener(new Button.ClickListener() {
@@ -47,7 +53,7 @@ public class tLeafButton extends Button {
 
     }
 
-    public static String doStringWrap(String inputStr){
+    private static String doStringWrap(String inputStr){
         StringBuffer s0 = new StringBuffer(inputStr.trim());
         List<Integer> sIndxList = new ArrayList<Integer>();
         int k = 1;

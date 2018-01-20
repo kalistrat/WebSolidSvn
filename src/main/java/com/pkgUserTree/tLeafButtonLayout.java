@@ -13,7 +13,6 @@ public class tLeafButtonLayout extends VerticalLayout {
 
         LeafButton = new tLeafButton(iButtonLeafId, iParentContentLayout);
         this.addComponent(this.LeafButton);
-        //this.setMargin(true);
         this.setSpacing(true);
         this.setComponentAlignment(this.LeafButton, Alignment.MIDDLE_CENTER);
         this.setSizeUndefined();

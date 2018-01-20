@@ -13261,3 +13261,86 @@ div.v-layout.v-horizontal.v-widget {
 .mytheme .messagenamelabel-with-color {
 	color: blue;
 }
+
+.mytheme .ButtonHugeIcon .v-icon {
+	font-size: 50px;
+}
+
+.mytheme .ButtonHugeIcon .v-button-caption {
+	font-size: 14px;
+	white-space: pre;
+}
+
+.mytheme .CaptionTree .v-tree-node-caption {
+	font-size: 14px;
+}
+
+.mytheme .CaptionMenu .v-menubar-menuitem-caption {
+	font-size: 14px;
+}
+
+.mytheme .TopLabel {
+	margin-top: 6px;
+}
+
+.mytheme .FormTextLabel {
+	margin-top: 10px;
+}
+
+.mytheme .CriteriaTextLabel {
+	margin-top: 4px;
+}
+
+.mytheme .TableLabel {
+	margin-top: 9px;
+}
+
+.mytheme .TopButton {
+	margin-top: 1px;
+}
+
+.mytheme .FormFont {
+	font-size: 14px;
+}
+
+.mytheme .SelectFont {
+	font-size: 14px;
+}
+
+.mytheme .WarningFont {
+	font-size: 14px;
+	color: red;
+}
+
+.mytheme .TableRow {
+	font-size: 12px;
+}
+
+.mytheme .v-tabsheet-TabSheetSmall .v-tabsheet-tabitemcell .v-caption {
+	font-size: 14px;
+}
+
+.mytheme .v-tabsheet-TabSheetSmall .v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
+	font-size: 14px;
+}
+
+.mytheme .diagram .area {
+	fill: steelblue;
+	clip-path: url(#clip);
+}
+
+.mytheme .diagram .zoom {
+	cursor: move;
+	fill: none;
+	pointer-events: all;
+}
+
+.mytheme .diagram .grid line {
+	stroke: black;
+	stroke-opacity: 0.7;
+	shape-rendering: crispEdges;
+}
+
+.mytheme .diagram .grid path {
+	stroke-width: 0;
+}

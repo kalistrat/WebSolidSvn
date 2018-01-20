@@ -131,7 +131,7 @@ public class tTreeContentLayout extends VerticalLayout {
         //tUsefulFuctions.refreshUserTree(iUserLog);
 //        вызывается функция перестроения дерева
 //        Большой вопрос, нужно ли её вызывать здесь
-        itTree.tTreeGetData(iUserLog);
+        itTree.setUserTreeData();
 
         for (Object id : itTree.rootItemIds()) {
             itTree.expandItemsRecursively(id);

@@ -5,37 +5,36 @@ package com.pkgUserTree;
  */
 
 import com.vaadin.ui.Label;
-
 import com.vaadin.ui.VerticalLayout;
 
 
 
 public class tModelLayout extends VerticalLayout {
-
-
+    Integer iUserModelId;
+    String iModelType;
     public tModelLayout(int eLeafId, tTreeContentLayout eParentContentLayout){
 
-        Integer iUserDeviceId = (Integer) eParentContentLayout.itTree.getItem(eLeafId).getItemProperty(6).getValue();
-        String iActionType = (String) eParentContentLayout.itTree.getItem(eLeafId).getItemProperty(7).getValue();
+        iUserModelId = (Integer) eParentContentLayout.itTree.getItem(eLeafId).getItemProperty(6).getValue();
+        iModelType = (String) eParentContentLayout.itTree.getItem(eLeafId).getItemProperty(7).getValue();
         String iLeafName = (String) eParentContentLayout.itTree.getItem(eLeafId).getItemProperty(4).getValue();
-        //System.out.println("eLeafId: " + eLeafId);
 
-        if (iActionType.equals("Измерительное устройство")) {
+
+        if (iModelType.equals("PART")) {
             //this.addComponent(new tDetectorLayout(Integer.valueOf(iUserDeviceId),iLeafName,eLeafId,eParentContentLayout));
-            this.addComponent(new Label("Деталь"));
+            this.addComponent(new Label("Деталь" + iUserModelId));
 
         }
-        if (iActionType.equals("Исполнительное устройство")) {
+        if (iModelType.equals("ASSEMBLY")) {
             //this.addComponent(new tActuatorLayout(Integer.valueOf(iUserDeviceId),iLeafName,eLeafId,eParentContentLayout));
-            this.addComponent(new Label("Сборка"));
+            this.addComponent(new Label("Сборка" + iUserModelId));
         }
-        if (iActionType.equals("Исполнительное устройство")) {
+        if (iModelType.equals("DOCUMENT")) {
             //this.addComponent(new tActuatorLayout(Integer.valueOf(iUserDeviceId),iLeafName,eLeafId,eParentContentLayout));
-            this.addComponent(new Label("Файл"));
+            this.addComponent(new Label("Документ" + iUserModelId));
         }
-        if (iActionType.equals("Исполнительное устройство")) {
+        if (iModelType.equals("COMPLEX")) {
             //this.addComponent(new tActuatorLayout(Integer.valueOf(iUserDeviceId),iLeafName,eLeafId,eParentContentLayout));
-            this.addComponent(new Label("Комплекс"));
+            this.addComponent(new Label("Комплекс" + iUserModelId));
         }
 
     }

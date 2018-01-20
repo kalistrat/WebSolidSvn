@@ -31,35 +31,131 @@
 
 @import "../valo/valo.scss";
 
-@mixin mytheme
-{
+@mixin mytheme {
+
 @include valo;
 
-.blue-layout
-{
+.blue-layout {
 background-color: #20B6D3;
 height: 60px;
 }
 
-.hlayout-with-padding
-{
+.hlayout-with-padding {
 padding: 3px;
 }
 
-.hlayout-with-borders
-{
+.hlayout-with-borders {
 border: 1px lightgray solid;
 }
 
-.text-wrapping
-{
+.text-wrapping {
 word-wrap: break-word; /* IE  */
 white-space: -moz-pre-wrap; /* Firefox */
 }
 
-.messagenamelabel-with-color
-{
+.messagenamelabel-with-color {
 color:blue;
+}
+
+//
+
+.ButtonHugeIcon{
+  .v-icon {font-size: 50px;}
+  .v-button-caption {
+    font-size: 14px;
+    white-space: pre;
+  }
+}
+
+.CaptionTree {
+  .v-tree-node-caption{
+    font-size: 14px;
+  }
+}
+
+.CaptionMenu {
+  .v-menubar-menuitem-caption{
+    font-size: 14px;
+  }
+}
+
+.TopLabel {
+  margin-top: 6px;
+}
+
+.FormTextLabel {
+  margin-top: 10px;
+}
+
+.CriteriaTextLabel {
+  margin-top: 4px;
+}
+
+.TableLabel {
+  margin-top: 9px;
+}
+
+.TopButton {
+  margin-top: 1px;
+}
+
+.FormFont {
+  font-size: 14px;
+  //color: #07a9ca;
+}
+
+.SelectFont {
+  font-size: 14px;
+}
+
+.WarningFont {
+  font-size: 14px;
+  color: red;
+}
+
+
+.TableRow {
+  font-size: $v-font-size--tiny;
+}
+
+.v-tabsheet-TabSheetSmall{
+  .v-tabsheet-tabitemcell{
+    .v-caption {
+      //padding:10px;
+      //background-color: #1c1d22;
+      //color: #fff;
+      //font-weight:bold;
+      font-size: 14px;
+    }
+    .v-tabsheet-tabitem-selected .v-caption.v-caption {
+      //border-bottom-color: #ff751a;
+      //color: #ff751a;
+      font-size: 14px;
+    }
+  }
+}
+
+.diagram{
+  .area {
+    fill: steelblue;
+    clip-path: url(#clip);
+  }
+
+  .zoom {
+    cursor: move;
+    fill: none;
+    pointer-events: all;
+  }
+
+  .grid line {
+    stroke: black;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+  }
+
+  .grid path {
+    stroke-width: 0;
+  }
 }
 
 }
