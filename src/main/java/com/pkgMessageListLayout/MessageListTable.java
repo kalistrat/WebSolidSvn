@@ -14,12 +14,9 @@ private Integer RecordCount ;
 
 public MessageListTable ()
 {
-Table t1 = new Table("");
-t1.addContainerProperty("MessageListTableColumn1",MessageListItem.class, null);
+addContainerProperty("MessageListTableColumn1",MessageListItem.class, null);
 RecordCount = 0;
-setContainerDataSource(t1);
 setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
-
 addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 //addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
 //setSizeFull();
@@ -31,22 +28,7 @@ public  Integer GetRecordCount()
 return RecordCount;
 }
 
-/*
-public void AddMessage (MessageListItem NewMessage)
-{
-addItem(new Object[]{NewMessage}, RecordCount + 1);
-RecordCount = RecordCount + 1;
-setPageLength(RecordCount);
-}
-*/
-/*
-public void AddMessage2 (MessageListItem NewMessage)
-{
-addItem(new Object[]{NewMessage}, RecordCount + 1);
-RecordCount = RecordCount + 1;
-setPageLength(RecordCount);
-}
-*/
+
 
 public void AddMessage (MessageListItem NewMessage)
 {

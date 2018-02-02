@@ -14,10 +14,9 @@ private Integer RecordCount ;
 
 public ContactListTable ()
 {
-Table t1 = new Table("");
-t1.addContainerProperty("ContactListTableColumn1",ContactListItem.class, null);
+
+addContainerProperty("ContactListTableColumn1",ContactListItem.class, null);
 RecordCount = 0;
-setContainerDataSource(t1);
 setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 
 addStyleName(ValoTheme.TABLE_BORDERLESS) ;

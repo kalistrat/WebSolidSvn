@@ -74,11 +74,14 @@ ContactListTable1.setWidth("100%");
 Image NewContactPicture = new Image();
 NewContactPicture.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 ContactListItem NewContact = new ContactListItem (NewContactPicture, "Contact Name");
+NewContact.setWidth("100%");
 ContactListTable1.AddContactItem (NewContact);
+
 
 Image NewContactPicture1 = new Image();
 NewContactPicture1.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 ContactListItem NewContact1 = new ContactListItem (NewContactPicture1, "Contact1 Name1");
+NewContact1.setWidth("100%");
 ContactListTable1.AddContactItem (NewContact1);
 hlayout13.addComponent(ContactListTable1);
 
