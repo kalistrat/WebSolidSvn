@@ -19,10 +19,17 @@ Integer IncomingMesage;
 public MessageListItem(Image vContactImage, String vMessageText, String vContactName, String vMessageDate, VerticalLayout vLinkLayout, Integer vIncomingMesage)
 {
 Image vNewImage = new Image();
-vNewImage.setSource(vContactImage.getSource());
 
+if (vContactImage!= null)
+{
+vNewImage.setSource(vContactImage.getSource());
 vNewImage.setWidth(40, Unit.PIXELS);
 vNewImage.setHeight(40, Unit.PIXELS);
+}
+else
+{
+vNewImage=null;
+}
 
 GridLayout MainGrid = new GridLayout(3,2);
 
@@ -51,7 +58,7 @@ Label ContactNameLabel = new Label(vContactName);
 
 if (vIncomingMesage == 1)
 {
-ContactNameLabel.addStyleName("IncomingMesage-MessageNameLabel");
+ContactNameLabel.addStyleName("IncomingMesageContactNameLabel");
 }
 
 NameAndDateTable.addItem(new Object[]{ContactNameLabel , vMessageDate},1);
@@ -75,9 +82,9 @@ MainGrid.addComponent(PictureTable,0,0,0,1);
 MainGrid.addComponent(NameAndDateTable,1,0,2,0);
 MainGrid.addComponent(MessageTable,1,1,2,1);
 
-this.setRows(1);
-this.setColumns(1);
-this.addStyleName("hlayout-with-borders");
+setRows(1);
+setColumns(1);
+addStyleName("hlayout-with-borders");
 
 if (vLinkLayout != null)
 {

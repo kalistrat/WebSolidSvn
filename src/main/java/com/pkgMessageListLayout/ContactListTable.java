@@ -15,7 +15,7 @@ private Integer RecordCount ;
 public ContactListTable ()
 {
 
-addContainerProperty("ContactListTableColumn1",ContactListItem.class, null);
+addContainerProperty("ContactListTableColumn",ContactListItem.class, null);
 RecordCount = 0;
 setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 

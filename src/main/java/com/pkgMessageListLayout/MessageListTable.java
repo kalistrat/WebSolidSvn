@@ -14,7 +14,7 @@ private Integer RecordCount ;
 
 public MessageListTable ()
 {
-addContainerProperty("MessageListTableColumn1",MessageListItem.class, null);
+addContainerProperty("MessageListTableColumn",MessageListItem.class, null);
 RecordCount = 0;
 setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 addStyleName(ValoTheme.TABLE_BORDERLESS) ;
