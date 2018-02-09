@@ -1,5 +1,6 @@
 # IDEA User-specific stuff
 .idea\workspace.xml
+.idea/**/workspace.xml
 
 
 # Windows image file caches
