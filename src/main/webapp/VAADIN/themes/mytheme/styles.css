@@ -13240,11 +13240,6 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
-.mytheme .blue-layout {
-	background-color: #20B6D3;
-	height: 60px;
-}
-
 .mytheme .hlayout-with-padding {
 	padding: 3px;
 }
@@ -13258,7 +13253,7 @@ div.v-layout.v-horizontal.v-widget {
 	white-space: -moz-pre-wrap;
 }
 
-.mytheme .IncomingMesageContactNameLabel {
+.mytheme .IncomingMessageContactNameLabel {
 	color: blue;
 }
 

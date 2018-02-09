@@ -58,7 +58,7 @@ Label ContactNameLabel = new Label(vContactName);
 
 if (vIncomingMesage == 1)
 {
-ContactNameLabel.addStyleName("IncomingMesageContactNameLabel");
+ContactNameLabel.addStyleName("IncomingMessageContactNameLabel");
 }
 
 NameAndDateTable.addItem(new Object[]{ContactNameLabel , vMessageDate},1);

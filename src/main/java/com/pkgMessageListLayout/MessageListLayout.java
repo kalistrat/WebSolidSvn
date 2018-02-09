@@ -40,14 +40,12 @@ HorizontalLayout hlayout21 = new HorizontalLayout();
 HorizontalLayout hlayout22 = new HorizontalLayout();
 HorizontalLayout hlayout23 = new HorizontalLayout();
 
-hlayout11.addStyleName("blue-layout");
 hlayout11.setWidth("100%");
 hlayout12.addStyleName("hlayout-with-padding");
 hlayout12.addStyleName("hlayout-with-borders");
 hlayout12.setWidth("100%");
 hlayout13.setWidth("100%");
 
-hlayout21.addStyleName("blue-layout");
 hlayout21.setWidth("100%");
 hlayout22.setWidth("100%");
 hlayout23.setWidth("100%");
