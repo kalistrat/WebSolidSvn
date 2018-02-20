@@ -1,7 +1,7 @@
 package com.pkgMessageListLayout;
 
 import com.vaadin.data.Property;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -15,7 +15,10 @@ private Integer RecordCount ;
 public ContactListTable ()
 {
 
-addContainerProperty("ContactListTableColumn",ContactListItem.class, null);
+addStyleName("components-inside");
+addContainerProperty("ContactListTableImageColumn",Image.class, null);
+addContainerProperty("ContactListTableLabelColumn",Label.class, null);
+setColumnWidth("ContactListTableImageColumn", 40);
 RecordCount = 0;
 setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 
@@ -34,7 +37,14 @@ addValueChangeListener(new Property.ValueChangeListener()
 {
 @Override public void valueChange(Property.ValueChangeEvent valueChangeEvent)
 {
-System.out.println(getValue().toString());
+Object SelectedRowObject = getValue();
+
+if (SelectedRowObject != null)
+{
+//Номер выделенной строки таблицы
+String StrRowNumber = SelectedRowObject.toString();
+}
+
 }
 });
 
@@ -47,8 +57,15 @@ return RecordCount;
 
 public void AddContactItem ( ContactListItem NewContact)
 {
-addItem(new Object[]{NewContact}, RecordCount + 1);
 RecordCount = RecordCount + 1;
+Label LabelContactName = new Label(NewContact.ContactName);
+
+Image ContactImage = new Image();
+ContactImage.setWidth("30px");
+ContactImage.setHeight("30px");
+ContactImage.setSource(NewContact.ContactPicture.getSource());
+
+addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
 setPageLength(RecordCount);
 }
 }

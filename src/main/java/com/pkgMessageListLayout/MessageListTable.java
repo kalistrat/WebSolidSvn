@@ -28,8 +28,6 @@ public  Integer GetRecordCount()
 return RecordCount;
 }
 
-
-
 public void AddMessage (MessageListItem NewMessage)
 {
 addItem(new Object[]{NewMessage}, RecordCount + 1);

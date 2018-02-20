@@ -3,11 +3,7 @@ package com.pkgMessageListLayout;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.*;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.themes.ValoTheme;
-
 import java.io.File;
 
 
@@ -72,15 +68,13 @@ ContactListTable1.setWidth("100%");
 Image NewContactPicture1 = new Image();
 NewContactPicture1.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 ContactListItem NewContact1 = new ContactListItem (NewContactPicture1, "Contact Name");
-NewContact1.setWidth("100%");
 ContactListTable1.AddContactItem (NewContact1);
-
 
 Image NewContactPicture2 = new Image();
 NewContactPicture2.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 ContactListItem NewContact2 = new ContactListItem (NewContactPicture2, "Contact1 Name1");
-NewContact2.setWidth("100%");
 ContactListTable1.AddContactItem (NewContact2);
+
 hlayout13.addComponent(ContactListTable1);
 
 /* hlayout13 */

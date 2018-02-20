@@ -1,12 +1,12 @@
 package com.pkgMessageListLayout;
 
-
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * Created by Dmitriy on 15.01.2018.
  */
+
 public class MessageListItem extends GridLayout
 {
 Image ContactImage;
@@ -92,11 +92,8 @@ MainGrid.setRows(3);
 MainGrid.addComponent(vLinkLayout,0,2,1,2);
 }
 
-
 this.addComponent(MainGrid);
 setWidth("100%");
-
-
 }
 }
 
