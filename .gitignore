@@ -1,3 +1,8 @@
+# https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -46,4 +51,3 @@ Network Trash Folder
 Temporary Items
 .apdisk
 target
-.idea/workspace.xml
