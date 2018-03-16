@@ -1,11 +1,20 @@
 package com.pkgMessageListLayout;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.server.*;
-import com.vaadin.ui.*;
+
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Link;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import java.io.File;
-
 
 /**
 * Created by Dmitriy on 05.01.2018.

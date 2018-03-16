@@ -1,7 +1,9 @@
 package com.pkgMessageListLayout;
 
 import com.vaadin.data.Property;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**

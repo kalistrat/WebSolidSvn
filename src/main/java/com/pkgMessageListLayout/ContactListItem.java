@@ -1,6 +1,6 @@
 package com.pkgMessageListLayout;
 
-import com.vaadin.ui.*;
+import com.vaadin.ui.Image;
 
 /**
  * Created by Dmitriy on 06.01.2018.
@@ -13,8 +13,8 @@ String ContactName;
 
 public ContactListItem( Image vContactPicture, String vContactName )
 {
-this.ContactPicture = vContactPicture;
-this.ContactName = vContactName;
+ContactPicture = vContactPicture;
+ContactName = vContactName;
 }
 
 };
