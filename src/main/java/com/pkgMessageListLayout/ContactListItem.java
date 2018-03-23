@@ -1,7 +1,6 @@
 package com.pkgMessageListLayout;
 
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Image;
 
 /**
  * Created by Dmitriy on 06.01.2018.

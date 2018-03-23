@@ -14,7 +14,7 @@ import com.vaadin.ui.themes.ValoTheme;
 public class MessageListItem extends GridLayout
 {
 Image ContactImage;
-String MessageText0;
+String MessageText;
 String ContactName;
 String MessageDate;
 VerticalLayout LinkLayout;

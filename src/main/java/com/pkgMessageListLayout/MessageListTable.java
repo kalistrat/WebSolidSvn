@@ -3,7 +3,6 @@ package com.pkgMessageListLayout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
 
-
 /**
 * Created by Dmitriy on 07.01.2018.
 */

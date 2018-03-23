@@ -44,6 +44,7 @@ ContainUserText = false;
 
 }
 });
+
 /* addBlurListener */
 
 /* addTextChangeListener */
