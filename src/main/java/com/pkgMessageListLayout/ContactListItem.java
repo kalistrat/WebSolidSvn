@@ -1,20 +1,23 @@
 package com.pkgMessageListLayout;
 
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Image;
 
 /**
  * Created by Dmitriy on 06.01.2018.
  */
 
-public  class ContactListItem
+public class ContactListItem
 {
-Image ContactPicture;
+Resource ContactPicture;
 String ContactName;
+Integer SubjectId;
 
-public ContactListItem( Image vContactPicture, String vContactName )
+public ContactListItem( Resource vContactPicture, String vContactName, Integer vSubjectId )
 {
 ContactPicture = vContactPicture;
 ContactName = vContactName;
+SubjectId = vSubjectId;
 }
 
 };
