@@ -128,6 +128,7 @@ MessageTextArea.setWidth("100%");
 MessageTextArea.setRows(1);
 //MessageTextArea.setSizeFull();
 
+
 Table MessageTextAreaTable = new Table ();
 MessageTextAreaTable.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 MessageTextAreaTable.addContainerProperty("MessageTextAreaTableTextAreaColumn", TextArea.class, null);
