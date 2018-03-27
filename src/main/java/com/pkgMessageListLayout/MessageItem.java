@@ -14,7 +14,7 @@ String MessageDate;
 VerticalLayout LinkLayout;
 Boolean IncomingMesage;
 
-public void MessageItem(Image vContactImage, String vMessageText, String vContactName, String vMessageDate, VerticalLayout vLinkLayout, Boolean vIncomingMesage)
+public  MessageItem (Image vContactImage, String vMessageText, String vContactName, String vMessageDate, VerticalLayout vLinkLayout, Boolean vIncomingMesage)
 {
 
 /* Схема слоев
@@ -36,7 +36,7 @@ Image vNewImage = new Image();
 if (vContactImage!= null)
 {
 vNewImage.setSource(vContactImage.getSource());
-vNewImage.setWidth(40, Unit.PIXELS);
+vNewImage.setWidth(50, Unit.PIXELS);
 vNewImage.setHeight(40, Unit.PIXELS);
 }
 else
@@ -66,12 +66,17 @@ Label DateLabel = new Label(vMessageDate);
 
 
 MessagePartNameAndDate.addComponent(ContactNameLabel);
+
 MessagePartNameAndDate.addComponent(NullLabel);
+NullLabel.setWidthUndefined();
+
 MessagePartNameAndDate.addComponent(DateLabel);
 
 //1.2.B Текст сообщения
 VerticalLayout MessagePartMessage  = new VerticalLayout();
+
 Label MessageTextLabel = new Label(vMessageText);
+MessageTextLabel.setWidth("700px");
 MessageTextLabel.addStyleName("text-wrapping");
 
 MessagePartMessage.addComponent(MessageTextLabel);
@@ -80,6 +85,7 @@ MessagePartMessage.addComponent(MessageTextLabel);
 //Верхняя часть MainLayoutMessagePart = ФИО/Дата + Сообщение
 MainLayoutMessagePart.addComponent(MessagePartNameAndDate);
 MainLayoutMessagePart.addComponent(MessagePartMessage);
+
 
 //Сборка верхнего слоя
 MainLayout.addComponent(vNewImage);

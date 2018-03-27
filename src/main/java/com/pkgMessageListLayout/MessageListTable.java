@@ -13,7 +13,7 @@ private Integer RecordCount ;
 
 public MessageListTable ()
 {
-addContainerProperty("MessageListTableColumn",MessageListItem.class, null);
+addContainerProperty("MessageListTableColumn",MessageItem.class, null);
 RecordCount = 0;
 setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 addStyleName(ValoTheme.TABLE_BORDERLESS) ;
@@ -27,7 +27,7 @@ public  Integer GetRecordCount()
 return RecordCount;
 }
 
-public void AddMessage (MessageListItem NewMessage)
+public void AddMessage (MessageItem NewMessage)
 {
 addItem(new Object[]{NewMessage}, RecordCount + 1);
 RecordCount = RecordCount + 1;
