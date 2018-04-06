@@ -101,7 +101,7 @@ link.setTargetName("_blank");
 
 VLinkLayout.addComponent(link);
 Image NewContactImage = new Image();
-NewContactImage.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
+NewContactImage.setSource(new ExternalResource("https://im0-tub-ru.yandex.net/i?id=e762a2e96e82a9138a2e2c619a760383-sr&n=13"));
 MessageListTable MsgListTable1 = new MessageListTable();
 MessageItem NewMessage = new MessageItem(NewContactImage,"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.","Ivanov Ivan Sergeevich", "11.01.2017 23:59:59", VLinkLayout,true);
 MsgListTable1.AddMessage(NewMessage);

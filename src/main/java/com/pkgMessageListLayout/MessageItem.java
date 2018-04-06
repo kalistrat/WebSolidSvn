@@ -36,8 +36,8 @@ Image vNewImage = new Image();
 if (vContactImage!= null)
 {
 vNewImage.setSource(vContactImage.getSource());
-vNewImage.setWidth(50, Unit.PIXELS);
-vNewImage.setHeight(40, Unit.PIXELS);
+vNewImage.setWidth(60, Unit.PIXELS);
+vNewImage.setHeight(60, Unit.PIXELS);
 }
 else
 {
@@ -61,15 +61,11 @@ ContactNameLabel.addStyleName("IncomingMessageContactNameLabel");
 }
 
 Label NullLabel = new Label();
-
 Label DateLabel = new Label(vMessageDate);
 
-
 MessagePartNameAndDate.addComponent(ContactNameLabel);
-
 MessagePartNameAndDate.addComponent(NullLabel);
 NullLabel.setWidthUndefined();
-
 MessagePartNameAndDate.addComponent(DateLabel);
 
 //1.2.B Текст сообщения
