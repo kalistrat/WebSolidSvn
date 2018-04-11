@@ -33,4 +33,9 @@ addItem(new Object[]{NewMessage}, RecordCount + 1);
 RecordCount = RecordCount + 1;
 setPageLength(RecordCount);
 }
+
+public void UpdateMessagesList(Integer contact_id)
+{
+
+}
 }

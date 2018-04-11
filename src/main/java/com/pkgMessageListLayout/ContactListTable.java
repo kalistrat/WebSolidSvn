@@ -15,14 +15,14 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class ContactListTable extends Table
 {
-
 private Integer RecordCount ;
 IndexedContainer DataContainer;
+MessageListTable MsgListTable; //Layout который будет обновляться после кликов в контакт-листе
 
 public ContactListTable ()
 {
-DataContainer = new IndexedContainer();
 
+DataContainer = new IndexedContainer();
 DataContainer.addContainerProperty("RecordNum", Integer.class,0);
 DataContainer.addContainerProperty("ContactId", Integer.class,0);
 
@@ -55,18 +55,17 @@ Object SelectedRowObject = getValue();
 
 if (SelectedRowObject != null)
 {
-
 //Номер выделенной строки таблицы
 Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
 Object Obj = DataContainer.getIdByIndex(IntRowNumber - 1);
 Integer SubjectId = Integer.valueOf(DataContainer.getContainerProperty(Obj, "ContactId").getValue().toString());
-Notification.show("SubjectId = " + SubjectId);
+//Notification.show("SubjectId = " + SubjectId);
 }
-
 }
 });
 
 }
+
 
 public Integer GetRecordCount()
 {
@@ -92,4 +91,11 @@ newItem.getItemProperty("RecordNum").setValue(RecordCount);
 newItem.getItemProperty("ContactId").setValue(NewContact.SubjectId);
 
 }
+
+public void SetMessageListTable(MessageListTable vMsgListTable)
+{
+MsgListTable = vMsgListTable;
+}
+
+
 }
