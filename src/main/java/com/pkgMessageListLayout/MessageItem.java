@@ -1,9 +1,11 @@
 package com.pkgMessageListLayout;
 
+
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.server.FileResource;
 
 public class MessageItem extends VerticalLayout
 {
@@ -14,7 +16,7 @@ String MessageDate;
 VerticalLayout LinkLayout;
 Boolean IncomingMesage;
 
-public  MessageItem (Image vContactImage, String vMessageText, String vContactName, String vMessageDate, VerticalLayout vLinkLayout, Boolean vIncomingMesage)
+public  MessageItem (FileResource ResContactImage, String vMessageText, String vContactName, String vMessageDate, VerticalLayout vLinkLayout, Boolean vIncomingMesage)
 {
 
 /* Схема слоев
@@ -31,17 +33,17 @@ HorizontalLayout MainLayout = new HorizontalLayout();
 //MainLayout.setHeight("20px");
 
 //1.1  Аватар
-Image vNewImage = new Image();
+Image ContactImage = new Image();
 
-if (vContactImage!= null)
+if (ResContactImage!=null)
 {
-vNewImage.setSource(vContactImage.getSource());
-vNewImage.setWidth(60, Unit.PIXELS);
-vNewImage.setHeight(60, Unit.PIXELS);
+ContactImage.setSource(ResContactImage);
+ContactImage.setWidth(60, Unit.PIXELS);
+ContactImage.setHeight(60, Unit.PIXELS);
 }
 else
 {
-vNewImage=null;
+ContactImage=null;
 }
 
 /* 1.2 Фио + Дата + Сообщение - BEGIN */
@@ -84,7 +86,7 @@ MainLayoutMessagePart.addComponent(MessagePartMessage);
 
 
 //Сборка верхнего слоя
-MainLayout.addComponent(vNewImage);
+MainLayout.addComponent(ContactImage);
 MainLayout.addComponent(MainLayoutMessagePart);
 
 // 2 Нижний слой - внешние ссылки

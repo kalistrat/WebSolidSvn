@@ -46,7 +46,6 @@ setSelectable(true);
 // Send changes in selection immediately to server.
 setImmediate(true);
 
-
 addValueChangeListener(new Property.ValueChangeListener()
 {
 @Override public void valueChange(Property.ValueChangeEvent valueChangeEvent)
@@ -59,7 +58,8 @@ if (SelectedRowObject != null)
 Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
 Object Obj = DataContainer.getIdByIndex(IntRowNumber - 1);
 Integer SubjectId = Integer.valueOf(DataContainer.getContainerProperty(Obj, "ContactId").getValue().toString());
-//Notification.show("SubjectId = " + SubjectId);
+
+MsgListTable.UpdateMessagesList(SubjectId);
 }
 }
 });
