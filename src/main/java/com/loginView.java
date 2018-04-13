@@ -1,6 +1,6 @@
 package com;
 
-import com.pkgMessageListLayout.UserClass;
+import com.pkgMessageListLayout.TempClass;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -80,7 +80,7 @@ public class loginView extends CustomComponent implements View {
                     GetUserIdStmt.execute();
 
                     //UserClass UserClass1 = new UserClass();
-                    UserClass.current_user_id = GetUserIdStmt.getInt(1);
+                    TempClass.current_user_id = GetUserIdStmt.getInt(1);
 
                     conn.close();
                 } catch(SQLException SQLe){

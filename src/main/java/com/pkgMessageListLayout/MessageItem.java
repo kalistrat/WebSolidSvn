@@ -1,6 +1,5 @@
 package com.pkgMessageListLayout;
 
-
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -83,7 +82,6 @@ MessagePartMessage.addComponent(MessageTextLabel);
 //Верхняя часть MainLayoutMessagePart = ФИО/Дата + Сообщение
 MainLayoutMessagePart.addComponent(MessagePartNameAndDate);
 MainLayoutMessagePart.addComponent(MessagePartMessage);
-
 
 //Сборка верхнего слоя
 MainLayout.addComponent(ContactImage);

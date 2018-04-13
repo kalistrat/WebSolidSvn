@@ -17,7 +17,6 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import java.io.File;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -83,7 +82,7 @@ ContactListTable ContactListTable1 = new ContactListTable();
 ContactListTable1.setWidth("100%");
 
 String SQLString = "select su.user_id,su.second_name , su.first_name , su.middle_name, su.user_photo_link" +
-" from solid.system_users su where su.user_id!=" + UserClass.current_user_id.toString() + " order by su.user_id asc";
+" from solid.system_users su where su.user_id!=" + TempClass.current_user_id.toString() + " order by su.user_id asc";
 
 Connection Connection1 = null;
 
@@ -94,7 +93,6 @@ Connection1 = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.US
 
 Statement Statement = Connection1.createStatement();
 ResultSet ResultSet1 = Statement.executeQuery(SQLString);
-//Перебор записей
 
 Integer rec_user_id;
 String rec_fio;
@@ -113,6 +111,7 @@ String str = basepath + "/VAADIN/contactavatars/" + rec_photo_link;
 FileResource resource = new FileResource(new File(str));
 ContactListItem NewContact2 = new ContactListItem(resource, rec_fio, rec_user_id);
 ContactListTable1.AddContactItem(NewContact2);
+TempClass.ContactMsgCountMap.put(rec_user_id,0);
 }
 }
 catch (SQLException SQLe)

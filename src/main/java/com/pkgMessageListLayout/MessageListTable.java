@@ -12,8 +12,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 
+import java.text.SimpleDateFormat;
 
 /**
 * Created by Dmitriy on 07.01.2018.
@@ -48,15 +48,25 @@ setPageLength(RecordCount);
 
 public void UpdateMessagesList(Integer second_contact_id)
 {
-this.clear();
+//Число сообщений с текущим контактом
+Integer user_msg_count = TempClass.ContactMsgCountMap.get(second_contact_id);
 
-Integer current_contact_id = UserClass.current_user_id;
+//Очищаем таблицу
+for (Integer i=1; i<=user_msg_count;i++)
+{
+this.removeItem(i);
+}
+
+RecordCount = 0;
+setPageLength(0);
+
+Integer current_contact_id = TempClass.current_user_id;
+
 Connection Connection1 = null;
-
 String SQLString =
 "select solid.pkg_user.f_get_full_fio (mes.to_user_id) to_fio "
 + ",mes.message_text ,mes.mesage_date "
-+ ",decode (mes.to_user_id, ?, 1,0) inc_msg"
++ ",decode (mes.from_user_id, ?, 1,0) inc_msg"
 + ",su.user_photo_link from solid.message mes "
 + "join solid.system_users su on mes.from_user_id = su.user_id "
 + "where ((mes.from_user_id = ?) and (mes.to_user_id = ?) or (mes.from_user_id = ?) and (mes.to_user_id = ?)) "
@@ -82,21 +92,37 @@ String msg_text;
 Integer inc_mes_int;
 String msg_date_text;
 
+Integer msg_count=0;
+
 Boolean inc_mes;
 String photo_link;
+
 SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+
 while (ResultSet1.next())
 {
+msg_count = msg_count + 1;
 from_fio = ResultSet1.getString(1);
 msg_text = ResultSet1.getString(2);
-msg_date_text = DATE_FORMAT.format(ResultSet1.getDate(3));
+msg_date_text = DATE_FORMAT.format(ResultSet1.getTimestamp(3).getTime());
 inc_mes_int = ResultSet1.getInt(4);
-if (inc_mes_int ==1) {inc_mes = true;} else {inc_mes =false;}
+
+if (inc_mes_int ==1)
+{
+inc_mes = true;
+}
+else
+{
+inc_mes =false;
+}
+
 photo_link =  basepath + "/VAADIN/contactavatars/" + ResultSet1.getString(5);
 FileResource resource = new FileResource(new File(photo_link));
-MessageItem Mesg = new MessageItem(resource,msg_text,from_fio,msg_date_text,null,inc_mes);
+MessageItem Mesg = new MessageItem(resource, msg_text, from_fio, msg_date_text, null, inc_mes);
 AddMessage(Mesg);
 }
+
+TempClass.ContactMsgCountMap.replace(second_contact_id, msg_count);
 }
 
 catch (SQLException SQLe)
@@ -107,6 +133,7 @@ catch (Exception e1)
 {
 e1.printStackTrace();
 }
+
 finally
 
 {
@@ -120,26 +147,8 @@ catch (Exception e2)
 {
 e2.printStackTrace();
 }
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+} // UpdateMessagesList
 
 }

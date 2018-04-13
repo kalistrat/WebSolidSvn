@@ -5,7 +5,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
+
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -23,7 +23,11 @@ public ContactListTable ()
 {
 
 DataContainer = new IndexedContainer();
-DataContainer.addContainerProperty("RecordNum", Integer.class,0);
+
+//Номер записи п/п
+DataContainer.addContainerProperty("TableRecordNum", Integer.class,0);
+
+// ID контакта
 DataContainer.addContainerProperty("ContactId", Integer.class,0);
 
 addStyleName("components-inside");
@@ -58,7 +62,6 @@ if (SelectedRowObject != null)
 Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
 Object Obj = DataContainer.getIdByIndex(IntRowNumber - 1);
 Integer SubjectId = Integer.valueOf(DataContainer.getContainerProperty(Obj, "ContactId").getValue().toString());
-
 MsgListTable.UpdateMessagesList(SubjectId);
 }
 }
@@ -75,7 +78,6 @@ return RecordCount;
 public void AddContactItem ( ContactListItem NewContact)
 {
 RecordCount = RecordCount + 1;
-
 Label LabelContactName = new Label(NewContact.ContactName);
 Image ContactImage = new Image();
 
@@ -87,7 +89,7 @@ addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
 setPageLength(RecordCount);
 
 Item newItem = DataContainer.addItem(RecordCount);
-newItem.getItemProperty("RecordNum").setValue(RecordCount);
+newItem.getItemProperty("TableRecordNum").setValue(RecordCount);
 newItem.getItemProperty("ContactId").setValue(NewContact.SubjectId);
 
 }
