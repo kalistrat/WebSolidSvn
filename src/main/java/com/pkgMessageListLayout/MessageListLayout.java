@@ -111,7 +111,6 @@ String str = basepath + "/VAADIN/contactavatars/" + rec_photo_link;
 FileResource resource = new FileResource(new File(str));
 ContactListItem NewContact2 = new ContactListItem(resource, rec_fio, rec_user_id);
 ContactListTable1.AddContactItem(NewContact2);
-TempClass.ContactMsgCountMap.put(rec_user_id,0);
 }
 }
 catch (SQLException SQLe)

@@ -60,6 +60,11 @@ if (vIncomingMesage == true)
 {
 ContactNameLabel.addStyleName("IncomingMessageContactNameLabel");
 }
+else
+{
+ContactNameLabel.addStyleName("OutgoingMessageContactNameLabel");
+}
+
 
 Label NullLabel = new Label();
 Label DateLabel = new Label(vMessageDate);

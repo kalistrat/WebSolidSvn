@@ -13257,6 +13257,10 @@ div.v-layout.v-horizontal.v-widget {
 	color: blue;
 }
 
+.mytheme .OutgoingMessageContactNameLabel {
+	color: darkgreen;
+}
+
 .mytheme .ButtonHugeIcon .v-icon {
 	font-size: 50px;
 }

@@ -1,9 +1,14 @@
 package com.pkgMessageListLayout;
 
 import com.staticMethods;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
+import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinService;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import java.io.File;
@@ -48,14 +53,8 @@ setPageLength(RecordCount);
 
 public void UpdateMessagesList(Integer second_contact_id)
 {
-//Число сообщений с текущим контактом
-Integer user_msg_count = TempClass.ContactMsgCountMap.get(second_contact_id);
 
-//Очищаем таблицу
-for (Integer i=1; i<=user_msg_count;i++)
-{
-this.removeItem(i);
-}
+this.removeAllItems();
 
 RecordCount = 0;
 setPageLength(0);
@@ -63,14 +62,16 @@ setPageLength(0);
 Integer current_contact_id = TempClass.current_user_id;
 
 Connection Connection1 = null;
+
 String SQLString =
-"select solid.pkg_user.f_get_full_fio (mes.to_user_id) to_fio "
+"select mes.message_id, solid.pkg_user.f_get_full_fio (mes.to_user_id) to_fio "
 + ",mes.message_text ,mes.mesage_date "
 + ",decode (mes.from_user_id, ?, 1,0) inc_msg"
 + ",su.user_photo_link from solid.message mes "
 + "join solid.system_users su on mes.from_user_id = su.user_id "
 + "where ((mes.from_user_id = ?) and (mes.to_user_id = ?) or (mes.from_user_id = ?) and (mes.to_user_id = ?)) "
 + "order by mes.message_id asc";
+
 
 try
 {
@@ -79,6 +80,7 @@ Connection1 = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.US
 PreparedStatement PrepStm  = Connection1.prepareCall(SQLString);
 
 PrepStm.setInt(1,current_contact_id);
+
 PrepStm.setInt(2,current_contact_id);
 PrepStm.setInt(3,second_contact_id);
 PrepStm.setInt(4,second_contact_id);
@@ -90,24 +92,57 @@ String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath(
 String from_fio;
 String msg_text;
 Integer inc_mes_int;
+Integer msg_id;
 String msg_date_text;
-
 Integer msg_count=0;
-
 Boolean inc_mes;
 String photo_link;
 
 SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
+String SQLString2 = "select el.link_url, el.link_title from solid.external_link el "
++ "where el.message_id = ? order by el.external_link_id asc";
+
+PreparedStatement PrepStm2  = Connection1.prepareCall(SQLString2);
+
 while (ResultSet1.next())
 {
-msg_count = msg_count + 1;
-from_fio = ResultSet1.getString(1);
-msg_text = ResultSet1.getString(2);
-msg_date_text = DATE_FORMAT.format(ResultSet1.getTimestamp(3).getTime());
-inc_mes_int = ResultSet1.getInt(4);
+msg_id = ResultSet1.getInt(1);
+PrepStm2.setInt(1,msg_id);
 
-if (inc_mes_int ==1)
+Integer msg_link_count = 0;
+
+ResultSet ResultSet2 = PrepStm2.executeQuery();
+VerticalLayout LinkLayout = new VerticalLayout();
+
+// Loop по ссылкам соообщения
+String msg_link_url;
+String msg_link_title;
+
+
+while (ResultSet2.next())
+{
+msg_link_count = msg_link_count + 1;
+msg_link_url = ResultSet2.getString(1);
+msg_link_title = ResultSet2.getString(2);
+Link ExtLink = new Link(msg_link_title,new ExternalResource(msg_link_url));
+LinkLayout.addComponent(ExtLink);
+}
+ResultSet2=null;
+
+if (msg_link_count == 0)
+{
+LinkLayout = null;
+}
+
+
+//msg_count = msg_count + 1;
+from_fio = ResultSet1.getString(2);
+msg_text = ResultSet1.getString(3);
+msg_date_text = DATE_FORMAT.format(ResultSet1.getTimestamp(4).getTime());
+inc_mes_int = ResultSet1.getInt(5);
+
+if (inc_mes_int == 1)
 {
 inc_mes = true;
 }
@@ -116,13 +151,12 @@ else
 inc_mes =false;
 }
 
-photo_link =  basepath + "/VAADIN/contactavatars/" + ResultSet1.getString(5);
+photo_link =  basepath + "/VAADIN/contactavatars/" + ResultSet1.getString(6);
 FileResource resource = new FileResource(new File(photo_link));
-MessageItem Mesg = new MessageItem(resource, msg_text, from_fio, msg_date_text, null, inc_mes);
+MessageItem Mesg = new MessageItem(resource, msg_text, from_fio, msg_date_text, LinkLayout, inc_mes);
 AddMessage(Mesg);
 }
 
-TempClass.ContactMsgCountMap.replace(second_contact_id, msg_count);
 }
 
 catch (SQLException SQLe)

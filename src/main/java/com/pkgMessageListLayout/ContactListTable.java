@@ -91,7 +91,6 @@ setPageLength(RecordCount);
 Item newItem = DataContainer.addItem(RecordCount);
 newItem.getItemProperty("TableRecordNum").setValue(RecordCount);
 newItem.getItemProperty("ContactId").setValue(NewContact.SubjectId);
-
 }
 
 public void SetMessageListTable(MessageListTable vMsgListTable)
