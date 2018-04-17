@@ -96,23 +96,22 @@ ResultSet ResultSet1 = Statement.executeQuery(SQLString);
 
 Integer rec_user_id;
 String rec_fio;
-
-Integer rec_number = 0;
-String rec_photo_link;
 String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+String full_photo_path;
 
 while (ResultSet1.next())
 {
-rec_number = rec_number + 1;
 rec_user_id = ResultSet1.getInt(1);
 rec_fio = ResultSet1.getString(2) + " " + ResultSet1.getString(3) + " " + ResultSet1.getString(4);
-rec_photo_link = ResultSet1.getString(5);
-String str = basepath + "/VAADIN/contactavatars/" + rec_photo_link;
-FileResource resource = new FileResource(new File(str));
+full_photo_path = basepath + TempClass.FolderSeparateCharacter + "VAADIN" + TempClass.FolderSeparateCharacter+ "contactavatars" + TempClass.FolderSeparateCharacter + ResultSet1.getString(5);
+FileResource resource = new FileResource(new File(full_photo_path));
 ContactListItem NewContact2 = new ContactListItem(resource, rec_fio, rec_user_id);
 ContactListTable1.AddContactItem(NewContact2);
 }
+ResultSet1.close();
+
 }
+
 catch (SQLException SQLe)
 {
 SQLe.printStackTrace();
@@ -154,14 +153,6 @@ link.setTargetName("_blank");
 
 VLinkLayout.addComponent(link);
 MessageListTable MsgListTable1 = new MessageListTable();
-
-/*
-Image NewContactImage = new Image();
-NewContactImage.setSource(new ExternalResource("https://im0-tub-ru.yandex.net/i?id=e762a2e96e82a9138a2e2c619a760383-sr&n=13"));
-MessageItem NewMessage = new MessageItem(NewContactImage, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", "Ivanov Ivan Sergeevich", "11.01.2017 23:59:59", VLinkLayout, true);
-MsgListTable1.AddMessage(NewMessage);
-*/
-
 ContactListTable1.SetMessageListTable(MsgListTable1);
 hlayout22.addComponent(MsgListTable1);
 
@@ -185,7 +176,6 @@ TextArea MessageTextArea = new TextArea();
 MessageTextArea.setWidth("100%");
 MessageTextArea.setRows(1);
 //MessageTextArea.setSizeFull();
-
 
 Table MessageTextAreaTable = new Table();
 MessageTextAreaTable.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);

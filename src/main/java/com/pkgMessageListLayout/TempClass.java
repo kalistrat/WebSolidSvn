@@ -3,11 +3,13 @@ package com.pkgMessageListLayout;
 public class TempClass
 {
 public static Integer current_user_id;
+public static String FolderSeparateCharacter;
 }
 
 /*
 
-OsName = System.getProperty("os.name").toLowerCase();
+String OsName = System.getProperty("os.name").toLowerCase();
+
 if (OsName.indexOf("windows")>=0)
 {
 FolderSeparateCharacter = "\\";

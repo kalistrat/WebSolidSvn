@@ -79,7 +79,17 @@ public class loginView extends CustomComponent implements View {
                     GetUserIdStmt.setString(2, username);
                     GetUserIdStmt.execute();
 
-                    //UserClass UserClass1 = new UserClass();
+                    String OsName = System.getProperty("os.name").toLowerCase();
+
+                    if (OsName.indexOf("windows")>=0)
+                    {
+                    TempClass.FolderSeparateCharacter = "\\";
+                    }
+                    else //Assuming Unix
+                    {
+                    TempClass.FolderSeparateCharacter = "/";
+                    }
+
                     TempClass.current_user_id = GetUserIdStmt.getInt(1);
 
                     conn.close();

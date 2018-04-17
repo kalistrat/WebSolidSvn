@@ -17,11 +17,10 @@ public class ContactListTable extends Table
 {
 private Integer RecordCount ;
 IndexedContainer DataContainer;
-MessageListTable MsgListTable; //Layout который будет обновляться после кликов в контакт-листе
+MessageListTable MsgListTable; //Layout который будет обновляться после клика в контакт-листе
 
 public ContactListTable ()
 {
-
 DataContainer = new IndexedContainer();
 
 //Номер записи п/п
@@ -60,8 +59,14 @@ if (SelectedRowObject != null)
 {
 //Номер выделенной строки таблицы
 Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
+
+//Объект таблицы
 Object Obj = DataContainer.getIdByIndex(IntRowNumber - 1);
+
+// id субъекта для данной записи таблицы
 Integer SubjectId = Integer.valueOf(DataContainer.getContainerProperty(Obj, "ContactId").getValue().toString());
+
+//Обновляем список сообщений
 MsgListTable.UpdateMessagesList(SubjectId);
 }
 }
