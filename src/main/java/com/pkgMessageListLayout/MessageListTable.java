@@ -61,7 +61,7 @@ Connection Connection1 = null;
 String SQLString =
 "select mes.message_id, solid.pkg_user.f_get_full_fio (mes.to_user_id) to_fio "
 + ",mes.message_text ,mes.mesage_date "
-+ ",decode (mes.from_user_id, ?, true,false) inc_msg"
++ ",decode (mes.from_user_id, ?, 1,0) inc_msg"
 + ",su.user_photo_link from solid.message mes "
 + "join solid.system_users su on mes.from_user_id = su.user_id "
 + "where ((mes.from_user_id = ?) and (mes.to_user_id = ?) or (mes.from_user_id = ?) and (mes.to_user_id = ?)) "
@@ -131,7 +131,17 @@ LinkLayout = null;
 msg_from_fio = ResultSet1.getString(2);
 msg_text = ResultSet1.getString(3);
 msg_date_text = DATE_FORMAT.format(ResultSet1.getTimestamp(4).getTime());
-msg_incoming = ResultSet1.getBoolean(5);
+
+if (ResultSet1.getInt(5) == 1)
+{
+msg_incoming = true;
+}
+else
+{
+msg_incoming = false;
+}
+
+
 photo_link =  basepath + TempClass.FolderSeparateCharacter + "VAADIN" + TempClass.FolderSeparateCharacter + "contactavatars" + TempClass.FolderSeparateCharacter + ResultSet1.getString(6);
 FileResource resource = new FileResource(new File(photo_link));
 
