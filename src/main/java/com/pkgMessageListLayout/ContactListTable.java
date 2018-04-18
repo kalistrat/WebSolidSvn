@@ -5,7 +5,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
+
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -15,15 +15,18 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class ContactListTable extends Table
 {
-
 private Integer RecordCount ;
 IndexedContainer DataContainer;
+MessageListTable MsgListTable; //Layout который будет обновляться после клика в контакт-листе
 
 public ContactListTable ()
 {
 DataContainer = new IndexedContainer();
 
-DataContainer.addContainerProperty("RecordNum", Integer.class,0);
+//Номер записи п/п
+DataContainer.addContainerProperty("TableRecordNum", Integer.class,0);
+
+// ID контакта
 DataContainer.addContainerProperty("ContactId", Integer.class,0);
 
 addStyleName("components-inside");
@@ -46,7 +49,6 @@ setSelectable(true);
 // Send changes in selection immediately to server.
 setImmediate(true);
 
-
 addValueChangeListener(new Property.ValueChangeListener()
 {
 @Override public void valueChange(Property.ValueChangeEvent valueChangeEvent)
@@ -55,18 +57,23 @@ Object SelectedRowObject = getValue();
 
 if (SelectedRowObject != null)
 {
-
 //Номер выделенной строки таблицы
 Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
-Object Obj = DataContainer.getIdByIndex(IntRowNumber - 1);
-Integer SubjectId = Integer.valueOf(DataContainer.getContainerProperty(Obj, "ContactId").getValue().toString());
-Notification.show("SubjectId = " + SubjectId);
-}
 
+//Объект таблицы
+Object Obj = DataContainer.getIdByIndex(IntRowNumber - 1);
+
+// id субъекта для данной записи таблицы
+Integer SubjectId = Integer.valueOf(DataContainer.getContainerProperty(Obj, "ContactId").getValue().toString());
+
+//Обновляем список сообщений
+MsgListTable.UpdateMessagesList(SubjectId);
+}
 }
 });
 
 }
+
 
 public Integer GetRecordCount()
 {
@@ -76,7 +83,6 @@ return RecordCount;
 public void AddContactItem ( ContactListItem NewContact)
 {
 RecordCount = RecordCount + 1;
-
 Label LabelContactName = new Label(NewContact.ContactName);
 Image ContactImage = new Image();
 
@@ -88,8 +94,14 @@ addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
 setPageLength(RecordCount);
 
 Item newItem = DataContainer.addItem(RecordCount);
-newItem.getItemProperty("RecordNum").setValue(RecordCount);
+newItem.getItemProperty("TableRecordNum").setValue(RecordCount);
 newItem.getItemProperty("ContactId").setValue(NewContact.SubjectId);
-
 }
+
+public void SetMessageListTable(MessageListTable vMsgListTable)
+{
+MsgListTable = vMsgListTable;
+}
+
+
 }
