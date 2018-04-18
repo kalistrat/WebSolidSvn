@@ -1,6 +1,5 @@
 package com.pkgMessageListLayout;
 
-import com.vaadin.event.ContextClickEvent;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.ui.TextField;
 
@@ -10,40 +9,19 @@ import com.vaadin.ui.TextField;
 
 public class SmartTextField extends TextField
 {
-private Byte ContainFilterText;
-private Byte ContainUserText;
+private boolean ContainFilterText;
+private boolean ContainUserText;
 
 /* SmartTextField Begin */
 
 public SmartTextField()
 {
-this.clear();
-ContainFilterText = 1;
-ContainUserText = 0;
+clear();
+setImmediate(true);
+ContainFilterText = true;
+ContainUserText = false;
 
 /* SmartTextField Events Begin*/
-
-/* addContextClickListener */
-this.addContextClickListener(new ContextClickEvent.ContextClickListener()
-{
-@Override public void contextClick(ContextClickEvent event)
-{
-// Есть пользовательский текст
-if (ContainUserText == 1)
-{
-
-}
-else  // Нет пользовательского текста
-{
-if (ContainFilterText == 1)
-{
-setValue("");
-ContainFilterText = 0;
-}
-}
-}
-});
-/* addContextClickListener */
 
 /* addBlurListener (onLostFocus) */
 addBlurListener(new FieldEvents.BlurListener()
@@ -51,52 +29,80 @@ addBlurListener(new FieldEvents.BlurListener()
 public void blur(FieldEvents.BlurEvent event)
 {
 // Есть пользовательский текст
-if (ContainUserText == 1)
+if (ContainUserText == true)
 {
 }
 else  // Нет пользовательского текста
 {
-if (ContainFilterText == 0)
+if (ContainFilterText == false)
 {
 setValue("Поиск..");
-ContainFilterText = 1;
-ContainUserText = 0;
+ContainFilterText = true;
+ContainUserText = false;
 }
 }
 
 }
 });
+
 /* addBlurListener */
+
 /* addTextChangeListener */
 
-this.addTextChangeListener(new FieldEvents.TextChangeListener()
+addTextChangeListener(new FieldEvents.TextChangeListener()
 {
 @Override public void textChange(FieldEvents.TextChangeEvent textChangeEvent)
 {
 if (textChangeEvent.getText().equals(""))
 {
-ContainUserText = 0;
+ContainUserText = false;
 }
 else
 {
-ContainFilterText = 0;
-ContainUserText = 1;
+ContainFilterText = false;
+ContainUserText = true;
 }
 }
 });
 
 /* addTextChangeListener */
 
+/* addFocusListener */
+
+addFocusListener(new FieldEvents.FocusListener()
+{
+@Override public void focus(FieldEvents.FocusEvent focusEvent)
+{
+// Есть пользовательский текст
+if (ContainUserText == true)
+{
+
+}
+else  // Нет пользовательского текста
+{
+if (ContainFilterText == true)
+{
+setValue("");
+ContainFilterText = false;
+}
+}
+
+}
+}
+
+);
+/* addFocusListener */
+
 /* SmartTextField Events End*/
 }
 /* SmartTextField End*/
 
-public Byte GetContainFilterText()
+public boolean GetContainFilterText()
 {
 return this.ContainFilterText;
 }
 
-public Byte GetContainUserText()
+public boolean GetContainUserText()
 {
 return this.ContainUserText;
 }

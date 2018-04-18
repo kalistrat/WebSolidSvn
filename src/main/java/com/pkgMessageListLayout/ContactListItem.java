@@ -1,51 +1,40 @@
 package com.pkgMessageListLayout;
 
-import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.Resource;
+
+import java.io.File;
 
 /**
  * Created by Dmitriy on 06.01.2018.
  */
 
-public class ContactListItem extends Table
+public class ContactListItem
 {
-Image ContactPicture;
+Resource ContactPicture;
 String ContactName;
-/*
-public ContactListItem()
-{
+Integer SubjectId;
 
-}
-*/
-
-public ContactListItem( Image NewContactPicture, String NewContactName )
+public ContactListItem( Resource vContactPicture, String vContactName, Integer vSubjectId )
 {
-addStyleName("components-inside");
-Image vNewImage = new Image();
-
-if (NewContactPicture!= null)
-{
-vNewImage.setSource(NewContactPicture.getSource());
-vNewImage.setWidth(30, Unit.PIXELS);
-vNewImage.setHeight(40, Unit.PIXELS);
-}
-else
-{
-vNewImage=null;
+ContactPicture = vContactPicture;
+ContactName = vContactName;
+SubjectId = vSubjectId;
 }
 
-Label LabelContactName = new Label (NewContactName) ;
-
-addContainerProperty("ContactClassTablePictureColumn", Image.class, null);
-addContainerProperty("ContactClassTableNameColumn", Label.class, null);
-//ContactClassTable.setColumnExpandRatio("ContactClassTablePicture",1);
-//ContactClassTable.setColumnExpandRatio("ContactClassTableName",3);
-addItem(new Object[]{vNewImage, LabelContactName},1);
-setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
-addStyleName(ValoTheme.TABLE_BORDERLESS) ;
-addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
-addStyleName(ValoTheme.TABLE_NO_VERTICAL_LINES) ;
-setPageLength(this.size());
+public ContactListItem( String vContactPictureLink, String vContactName, Integer vSubjectId )
+{
+ContactPicture = new FileResource(new File(vContactPictureLink));
+ContactName = vContactName;
+SubjectId = vSubjectId;
 }
 
-};
+public ContactListItem( FileResource FRContactPicture, String vContactName, Integer vSubjectId )
+{
+ContactPicture = FRContactPicture;
+ContactName = vContactName;
+SubjectId = vSubjectId;
+}
+
+}
+;

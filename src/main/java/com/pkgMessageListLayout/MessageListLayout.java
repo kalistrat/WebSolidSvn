@@ -1,15 +1,27 @@
 package com.pkgMessageListLayout;
 
+import com.staticMethods;
 import com.vaadin.annotations.Theme;
-import com.vaadin.server.*;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.themes.ValoTheme;
 
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.HorizontalSplitPanel;
+
+import com.vaadin.ui.Link;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 import java.io.File;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
 * Created by Dmitriy on 05.01.2018.
@@ -69,18 +81,61 @@ hlayout12.addComponent(ContactFilterTextField);
 ContactListTable ContactListTable1 = new ContactListTable();
 ContactListTable1.setWidth("100%");
 
-Image NewContactPicture1 = new Image();
-NewContactPicture1.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
-ContactListItem NewContact1 = new ContactListItem (NewContactPicture1, "Contact Name");
-NewContact1.setWidth("100%");
-ContactListTable1.AddContactItem (NewContact1);
+String SQLString = "select su.user_id,su.second_name , su.first_name , su.middle_name, su.user_photo_link" +
+" from solid.system_users su where su.user_id!=" + TempClass.current_user_id.toString() + " order by su.user_id asc";
 
+Connection Connection1 = null;
 
-Image NewContactPicture2 = new Image();
-NewContactPicture2.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
-ContactListItem NewContact2 = new ContactListItem (NewContactPicture2, "Contact1 Name1");
-NewContact2.setWidth("100%");
-ContactListTable1.AddContactItem (NewContact2);
+try
+{
+Class.forName(staticMethods.JDBC_DRIVER);
+Connection1 = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
+
+Statement Statement = Connection1.createStatement();
+ResultSet ResultSet1 = Statement.executeQuery(SQLString);
+
+Integer rec_user_id;
+String rec_fio;
+String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+String full_photo_path;
+
+while (ResultSet1.next())
+{
+rec_user_id = ResultSet1.getInt(1);
+rec_fio = ResultSet1.getString(2) + " " + ResultSet1.getString(3) + " " + ResultSet1.getString(4);
+full_photo_path = basepath + TempClass.FolderSeparateCharacter + "VAADIN" + TempClass.FolderSeparateCharacter+ "contactavatars" + TempClass.FolderSeparateCharacter + ResultSet1.getString(5);
+FileResource resource = new FileResource(new File(full_photo_path));
+ContactListItem NewContact2 = new ContactListItem(resource, rec_fio, rec_user_id);
+ContactListTable1.AddContactItem(NewContact2);
+}
+ResultSet1.close();
+
+}
+
+catch (SQLException SQLe)
+{
+SQLe.printStackTrace();
+
+}
+catch (Exception e1)
+{
+e1.printStackTrace();
+}
+
+finally
+{
+if (Connection1 != null)
+
+try
+{
+Connection1.close();
+}
+catch (Exception e2)
+{
+
+e2.printStackTrace();
+}
+
 hlayout13.addComponent(ContactListTable1);
 
 /* hlayout13 */
@@ -93,15 +148,12 @@ hlayout13.addComponent(ContactListTable1);
 VerticalLayout VLinkLayout = new VerticalLayout();
 VLinkLayout.setWidth("100%");
 
-Link link = new Link("Take me a away to a faraway land",         new ExternalResource("http://vaadin.com/"));
+Link link = new Link("Take me a away to a faraway land", new ExternalResource("http://vaadin.com/"));
 link.setTargetName("_blank");
 
 VLinkLayout.addComponent(link);
-Image NewContactImage = new Image();
-NewContactImage.setSource(new ExternalResource("https://docs.oracle.com/javaee/6/tutorial/doc/graphics/javalogo.png"));
 MessageListTable MsgListTable1 = new MessageListTable();
-MessageListItem NewMessage = new MessageListItem(NewContactImage,"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.","Ivanov Ivan Sergeevich","11.01.2017 23:59:59", VLinkLayout,1);
-MsgListTable1.AddMessage(NewMessage);
+ContactListTable1.SetMessageListTable(MsgListTable1);
 hlayout22.addComponent(MsgListTable1);
 
 /* hlayout22 */
@@ -125,7 +177,7 @@ MessageTextArea.setWidth("100%");
 MessageTextArea.setRows(1);
 //MessageTextArea.setSizeFull();
 
-Table MessageTextAreaTable = new Table ();
+Table MessageTextAreaTable = new Table();
 MessageTextAreaTable.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 MessageTextAreaTable.addContainerProperty("MessageTextAreaTableTextAreaColumn", TextArea.class, null);
 MessageTextAreaTable.addContainerProperty("MessageTextAreaTableChooseFilesButton", Button.class, null);
@@ -135,10 +187,10 @@ MessageTextAreaTable.setColumnWidth("MessageTextAreaTableTextAreaColumn", 700);
 MessageTextAreaTable.setColumnWidth("MessageTextAreaTableChooseFilesButton", 50);
 MessageTextAreaTable.setColumnWidth("MessageTextAreaTableSendMessageButton", 150);
 
-MessageTextAreaTable.addStyleName(ValoTheme.TABLE_BORDERLESS) ;
-MessageTextAreaTable.addStyleName(ValoTheme.TABLE_NO_VERTICAL_LINES) ;
+MessageTextAreaTable.addStyleName(ValoTheme.TABLE_BORDERLESS);
+MessageTextAreaTable.addStyleName(ValoTheme.TABLE_NO_VERTICAL_LINES);
 MessageTextAreaTable.setWidth("100%");
-MessageTextAreaTable.addItem(new Object[]{MessageTextArea, ChooseFilesButton, SendMessageButton},1);
+MessageTextAreaTable.addItem(new Object[]{MessageTextArea, ChooseFilesButton, SendMessageButton}, 1);
 MessageTextAreaTable.setPageLength(1);
 hlayout23.addComponent(MessageTextAreaTable);
 
@@ -154,5 +206,6 @@ vlayout2.addComponent(hlayout23);
 
 this.addComponent(HrSplitPanel);
 }
-}
 
+}
+}

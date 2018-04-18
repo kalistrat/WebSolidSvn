@@ -1,5 +1,6 @@
 package com;
 
+import com.pkgMessageListLayout.TempClass;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -21,7 +22,6 @@ public class loginView extends CustomComponent implements View {
 
     TextField LogInField = new TextField("Имя пользователя");
     PasswordField PassField = new PasswordField("Пароль");
-
 
     public loginView(){
         setSizeFull();
@@ -71,9 +71,26 @@ public class loginView extends CustomComponent implements View {
                     CallableStatement CheckUserStmt = conn.prepareCall("{? = call f_get_user_password(?)}");
                     CheckUserStmt.registerOutParameter (1, Types.VARCHAR);
                     CheckUserStmt.setString(2, username);
-
                     CheckUserStmt.execute();
                     db_Password = CheckUserStmt.getString(1);
+
+                    CallableStatement GetUserIdStmt = conn.prepareCall("{? = call F_GET_USERID(?)}");
+                    GetUserIdStmt.registerOutParameter(1, Types.INTEGER);
+                    GetUserIdStmt.setString(2, username);
+                    GetUserIdStmt.execute();
+
+                    String OsName = System.getProperty("os.name").toLowerCase();
+
+                    if (OsName.indexOf("windows")>=0)
+                    {
+                    TempClass.FolderSeparateCharacter = "\\";
+                    }
+                    else //Assuming Unix
+                    {
+                    TempClass.FolderSeparateCharacter = "/";
+                    }
+
+                    TempClass.current_user_id = GetUserIdStmt.getInt(1);
 
                     conn.close();
                 } catch(SQLException SQLe){
