@@ -1,6 +1,7 @@
 package com.pkgMessageListLayout;
 
 import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -78,7 +79,7 @@ MessagePartNameAndDate.addComponent(DateLabel);
 //1.2.B Текст сообщения
 VerticalLayout MessagePartMessage  = new VerticalLayout();
 
-Label MessageTextLabel = new Label(vMessageText);
+Label MessageTextLabel = new Label("<br>" +  vMessageText, ContentMode.HTML);
 MessageTextLabel.setWidth("700px");
 MessageTextLabel.addStyleName("text-wrapping");
 
