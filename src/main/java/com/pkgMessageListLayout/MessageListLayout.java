@@ -14,6 +14,7 @@ import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import java.io.File;
@@ -70,9 +71,9 @@ hlayout23.addStyleName("hlayout-with-borders");
 
 /* hlayout12 */
 
-SmartTextField ContactFilterTextField = new SmartTextField();
+TextField ContactFilterTextField = new TextField();
 ContactFilterTextField.setWidth("100%");
-ContactFilterTextField.setValue("Поиск...");
+ContactFilterTextField.setInputPrompt("Поиск...");
 hlayout12.addComponent(ContactFilterTextField);
 
 /* hlayout12 */
