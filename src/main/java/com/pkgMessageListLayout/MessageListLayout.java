@@ -5,6 +5,7 @@ import com.vaadin.annotations.Theme;
 
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -96,20 +97,16 @@ ResultSet ResultSet1 = Statement.executeQuery(SQLString);
 
 Integer rec_user_id;
 String rec_fio;
-String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-String full_photo_path;
 
 while (ResultSet1.next())
 {
 rec_user_id = ResultSet1.getInt(1);
 rec_fio = ResultSet1.getString(2) + " " + ResultSet1.getString(3) + " " + ResultSet1.getString(4);
-full_photo_path = basepath + TempClass.FolderSeparateCharacter + "VAADIN" + TempClass.FolderSeparateCharacter+ "contactavatars" + TempClass.FolderSeparateCharacter + ResultSet1.getString(5);
-FileResource resource = new FileResource(new File(full_photo_path));
-ContactListItem NewContact2 = new ContactListItem(resource, rec_fio, rec_user_id);
+ThemeResource ThemeResource1 = new ThemeResource ( ResultSet1.getString(5));
+ContactListItem NewContact2 = new ContactListItem(ThemeResource1, rec_fio, rec_user_id);
 ContactListTable1.AddContactItem(NewContact2);
 }
 ResultSet1.close();
-
 }
 
 catch (SQLException SQLe)
@@ -145,6 +142,7 @@ hlayout13.addComponent(ContactListTable1);
 /* hlayout21 */
 
 /* hlayout22 */
+
 VerticalLayout VLinkLayout = new VerticalLayout();
 VLinkLayout.setWidth("100%");
 

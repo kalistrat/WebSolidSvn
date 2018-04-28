@@ -2,15 +2,13 @@ package com.pkgMessageListLayout;
 
 import com.staticMethods;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.VaadinService;
+import com.vaadin.server.ThemeResource;
 
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -80,15 +78,12 @@ PrepStm1.setInt(4,second_contact_id);
 PrepStm1.setInt(5,current_contact_id);
 
 ResultSet ResultSet1 = PrepStm1.executeQuery();
-String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
 String msg_from_fio;
 String msg_text;
 Integer msg_id;
 String msg_date_text;
-
 Boolean msg_incoming;
-String photo_link;
 
 SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
@@ -141,11 +136,8 @@ else
 msg_incoming = false;
 }
 
-
-photo_link =  basepath + TempClass.FolderSeparateCharacter + "VAADIN" + TempClass.FolderSeparateCharacter + "contactavatars" + TempClass.FolderSeparateCharacter + ResultSet1.getString(6);
-FileResource resource = new FileResource(new File(photo_link));
-
-MessageItem Mesg = new MessageItem(resource, msg_text, msg_from_fio, msg_date_text, LinkLayout, msg_incoming);
+ThemeResource ThemeResource1 = new ThemeResource( ResultSet1.getString(6));
+MessageItem Mesg = new MessageItem(ThemeResource1, msg_text, msg_from_fio, msg_date_text, LinkLayout, msg_incoming);
 AddMessage(Mesg);
 }
 ResultSet1.close();

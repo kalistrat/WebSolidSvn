@@ -1,10 +1,10 @@
 package com.pkgMessageListLayout;
 
+import com.vaadin.server.Resource;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.server.FileResource;
 
 public class MessageItem extends VerticalLayout
 {
@@ -15,7 +15,7 @@ String MessageDate;
 VerticalLayout LinkLayout;
 Boolean IncomingMesage;
 
-public  MessageItem (FileResource ResContactImage, String vMessageText, String vContactName, String vMessageDate, VerticalLayout vLinkLayout, Boolean vIncomingMesage)
+public  MessageItem (Resource ResContactImage, String vMessageText, String vContactName, String vMessageDate, VerticalLayout vLinkLayout, Boolean vIncomingMesage)
 {
 
 /* Схема слоев
@@ -103,4 +103,3 @@ MainLayout.addComponent(MainLayoutMessagePart);
 this.addComponent(MainLayout);
 }
 };
-
