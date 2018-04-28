@@ -1,6 +1,6 @@
 package com;
 
-import com.pkgMessageListLayout.TempClass;
+import com.pkgChatLayout.TempClass;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;

@@ -1,4 +1,5 @@
-package com.pkgMessageListLayout;
+package com.pkgChatLayout;
+
 
 public class TempClass
 {

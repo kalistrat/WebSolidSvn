@@ -1,4 +1,4 @@
-package com.pkgMessageListLayout;
+package com.pkgChatLayout;
 
 import com.staticMethods;
 import com.vaadin.server.ExternalResource;

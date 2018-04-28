@@ -1,4 +1,4 @@
-package com.pkgMessageListLayout;
+package com.pkgChatLayout;
 
 import com.staticMethods;
 import com.vaadin.annotations.Theme;
@@ -30,10 +30,10 @@ import java.sql.Statement;
 */
 
 @Theme("mytheme")
-public class MessageListLayout extends VerticalLayout
+public class ChatLayout extends VerticalLayout
 {
 
-public MessageListLayout()
+public ChatLayout()
 {
 VerticalLayout vlayout1 = new VerticalLayout();
 VerticalLayout vlayout2 = new VerticalLayout();

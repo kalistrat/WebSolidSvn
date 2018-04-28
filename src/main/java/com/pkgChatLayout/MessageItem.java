@@ -1,4 +1,4 @@
-package com.pkgMessageListLayout;
+package com.pkgChatLayout;
 
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;

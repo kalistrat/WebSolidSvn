@@ -1,4 +1,4 @@
-package com.pkgMessageListLayout;
+package com.pkgChatLayout;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;

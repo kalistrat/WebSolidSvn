@@ -1,4 +1,4 @@
-package com.pkgMessageListLayout;
+package com.pkgChatLayout;
 
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;

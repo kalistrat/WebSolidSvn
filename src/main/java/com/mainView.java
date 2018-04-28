@@ -1,6 +1,6 @@
 package com;
 
-import com.pkgMessageListLayout.MessageListLayout;
+import com.pkgChatLayout.ChatLayout;
 import com.pkgUserTree.tTree;
 import com.pkgUserTree.tTreeContentLayout;
 import com.vaadin.icons.VaadinIcons;
@@ -80,10 +80,10 @@ public class mainView extends CustomComponent implements View {
         Tab1Cont.setMargin(true);
 
         VerticalLayout Tab2Cont = new VerticalLayout();
-        MessageListLayout MsgListLayout1 = new MessageListLayout();
-        Tab2Cont.addComponent(MsgListLayout1);
+        ChatLayout ChatLayout1 = new ChatLayout ();
+        Tab2Cont.addComponent(ChatLayout1);
         Tab2Cont.setHeight("500px");
-        MsgListLayout1.setHeight(Tab2Cont.getHeight(),Tab2Cont.getHeightUnits());
+        ChatLayout1.setHeight(Tab2Cont.getHeight(),Tab2Cont.getHeightUnits());
         tabSheet = new TabSheet();
 
         tabSheet.addTab(Tab1Cont, "Дерево моделей", VaadinIcons.FILE_TREE);
