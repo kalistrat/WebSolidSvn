@@ -104,7 +104,7 @@ while (ResultSet1.next())
 rec_user_id = ResultSet1.getInt(1);
 rec_fio = ResultSet1.getString(2) + " " + ResultSet1.getString(3) + " " + ResultSet1.getString(4);
 ThemeResource ThemeResource1 = new ThemeResource ( ResultSet1.getString(5));
-ContactListItem NewContact2 = new ContactListItem(ThemeResource1, rec_fio, rec_user_id);
+ContactListItem NewContact2 = new ContactListItem(ResultSet1.getString(5), rec_fio, rec_user_id);
 ContactListTable1.AddContactItem(NewContact2);
 }
 ResultSet1.close();

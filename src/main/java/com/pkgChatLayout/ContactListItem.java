@@ -2,8 +2,7 @@ package com.pkgChatLayout;
 
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
-
-import java.io.File;
+import com.vaadin.server.ThemeResource;
 
 /**
  * Created by Dmitriy on 06.01.2018.
@@ -24,7 +23,7 @@ SubjectId = vSubjectId;
 
 public ContactListItem( String vContactPictureLink, String vContactName, Integer vSubjectId )
 {
-ContactPicture = new FileResource(new File(vContactPictureLink));
+ContactPicture = new ThemeResource(vContactPictureLink);
 ContactName = vContactName;
 SubjectId = vSubjectId;
 }

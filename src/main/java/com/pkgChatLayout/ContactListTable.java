@@ -9,6 +9,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.util.ArrayList;
+import com.pkgChatLayout.ContactRecord;
+
 /**
 * Created by Dmitriy on 07.01.2018.
 */
@@ -18,9 +21,14 @@ public class ContactListTable extends Table
 private Integer RecordCount ;
 IndexedContainer DataContainer;
 MessageListTable MsgListTable; //Layout который будет обновляться после клика в контакт-листе
+ArrayList<ContactRecord> ALAllContacts;
+ArrayList<ContactRecord> ALSelectedContacts;
 
 public ContactListTable ()
 {
+ALAllContacts = new ArrayList();
+ALSelectedContacts = new ArrayList();
+
 DataContainer = new IndexedContainer();
 
 //Номер записи п/п
@@ -85,7 +93,6 @@ public void AddContactItem ( ContactListItem NewContact)
 RecordCount = RecordCount + 1;
 Label LabelContactName = new Label(NewContact.ContactName);
 Image ContactImage = new Image();
-
 ContactImage.setWidth("30px");
 ContactImage.setHeight("30px");
 ContactImage.setSource(NewContact.ContactPicture);
@@ -96,6 +103,11 @@ setPageLength(RecordCount);
 Item newItem = DataContainer.addItem(RecordCount);
 newItem.getItemProperty("TableRecordNum").setValue(RecordCount);
 newItem.getItemProperty("ContactId").setValue(NewContact.SubjectId);
+
+ContactRecord ContactRecord1 = new    ContactRecord     (NewContact.ContactName,"f",NewContact.SubjectId,RecordCount);
+System.out.println(NewContact.ContactPicture.toString());
+ALAllContacts.add(ContactRecord1);
+
 }
 
 public void SetMessageListTable(MessageListTable vMsgListTable)
