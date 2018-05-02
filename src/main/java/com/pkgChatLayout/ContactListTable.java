@@ -3,6 +3,7 @@ package com.pkgChatLayout;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 
@@ -95,7 +96,7 @@ Label LabelContactName = new Label(NewContact.ContactName);
 Image ContactImage = new Image();
 ContactImage.setWidth("30px");
 ContactImage.setHeight("30px");
-ContactImage.setSource(NewContact.ContactPicture);
+ContactImage.setSource(new ThemeResource(NewContact.ContactPicturePath));
 
 addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
 setPageLength(RecordCount);
@@ -105,7 +106,7 @@ newItem.getItemProperty("TableRecordNum").setValue(RecordCount);
 newItem.getItemProperty("ContactId").setValue(NewContact.SubjectId);
 
 ContactRecord ContactRecord1 = new    ContactRecord     (NewContact.ContactName,"f",NewContact.SubjectId,RecordCount);
-System.out.println(NewContact.ContactPicture.toString());
+System.out.println(NewContact.ContactPicturePath);
 ALAllContacts.add(ContactRecord1);
 
 }
