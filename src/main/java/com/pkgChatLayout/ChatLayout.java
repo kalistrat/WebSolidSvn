@@ -3,9 +3,10 @@ package com.pkgChatLayout;
 import com.staticMethods;
 import com.vaadin.annotations.Theme;
 
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -71,10 +72,9 @@ hlayout23.addStyleName("hlayout-with-borders");
 
 /* hlayout12 */
 
-TextField ContactFilterTextField = new TextField();
-ContactFilterTextField.setWidth("100%");
-ContactFilterTextField.setInputPrompt("Поиск...");
-hlayout12.addComponent(ContactFilterTextField);
+ContactFilterTextField ContactFilterTextField1 = new ContactFilterTextField();
+ContactFilterTextField1.setWidth("100%");
+hlayout12.addComponent(ContactFilterTextField1);
 
 /* hlayout12 */
 
@@ -132,7 +132,7 @@ catch (Exception e2)
 
 e2.printStackTrace();
 }
-
+ContactFilterTextField1.RelContactListTable = ContactListTable1;
 hlayout13.addComponent(ContactListTable1);
 
 /* hlayout13 */
@@ -152,6 +152,7 @@ link.setTargetName("_blank");
 VLinkLayout.addComponent(link);
 MessageListTable MsgListTable1 = new MessageListTable();
 ContactListTable1.SetMessageListTable(MsgListTable1);
+
 hlayout22.addComponent(MsgListTable1);
 
 /* hlayout22 */

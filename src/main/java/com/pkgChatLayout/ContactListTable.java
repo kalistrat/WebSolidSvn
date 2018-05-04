@@ -6,12 +6,8 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
-
-import java.util.ArrayList;
-import com.pkgChatLayout.ContactRecord;
 
 /**
 * Created by Dmitriy on 07.01.2018.
@@ -20,23 +16,33 @@ import com.pkgChatLayout.ContactRecord;
 public class ContactListTable extends Table
 {
 private Integer RecordCount ;
-IndexedContainer DataContainer;
+public IndexedContainer AllContactsContainer;
+public IndexedContainer SelectedContactsContainer;
+
+//Связанный контейнер
+IndexedContainer ActiveContainer;
 MessageListTable MsgListTable; //Layout который будет обновляться после клика в контакт-листе
-ArrayList<ContactRecord> ALAllContacts;
-ArrayList<ContactRecord> ALSelectedContacts;
 
 public ContactListTable ()
 {
-ALAllContacts = new ArrayList();
-ALSelectedContacts = new ArrayList();
-
-DataContainer = new IndexedContainer();
+AllContactsContainer = new IndexedContainer();
+SelectedContactsContainer = new IndexedContainer();
 
 //Номер записи п/п
-DataContainer.addContainerProperty("TableRecordNum", Integer.class,0);
+AllContactsContainer.addContainerProperty("TableRecordNum", Integer.class,0);
+SelectedContactsContainer.addContainerProperty("TableRecordNum", Integer.class,0);
+
+//ФИО
+AllContactsContainer.addContainerProperty("FIO", String.class,null);
+SelectedContactsContainer.addContainerProperty("FIO", String.class,null);
+
+//Путь к фотографии
+AllContactsContainer.addContainerProperty("ContactPicturePath", String.class,null);
+SelectedContactsContainer.addContainerProperty("ContactPicturePath", String.class,null);
 
 // ID контакта
-DataContainer.addContainerProperty("ContactId", Integer.class,0);
+AllContactsContainer.addContainerProperty("SubjectId", Integer.class,0);
+SelectedContactsContainer.addContainerProperty("SubjectId", Integer.class,0);
 
 addStyleName("components-inside");
 addContainerProperty("ContactListTableImageColumn",Image.class, null);
@@ -58,6 +64,7 @@ setSelectable(true);
 // Send changes in selection immediately to server.
 setImmediate(true);
 
+ActiveContainer = AllContactsContainer;
 addValueChangeListener(new Property.ValueChangeListener()
 {
 @Override public void valueChange(Property.ValueChangeEvent valueChangeEvent)
@@ -70,10 +77,10 @@ if (SelectedRowObject != null)
 Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
 
 //Объект таблицы
-Object Obj = DataContainer.getIdByIndex(IntRowNumber - 1);
+Object Obj = ActiveContainer.getIdByIndex(IntRowNumber - 1);
 
 // id субъекта для данной записи таблицы
-Integer SubjectId = Integer.valueOf(DataContainer.getContainerProperty(Obj, "ContactId").getValue().toString());
+Integer SubjectId = Integer.valueOf(ActiveContainer.getContainerProperty(Obj, "SubjectId").getValue().toString());
 
 //Обновляем список сообщений
 MsgListTable.UpdateMessagesList(SubjectId);
@@ -101,15 +108,32 @@ ContactImage.setSource(new ThemeResource(NewContact.ContactPicturePath));
 addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
 setPageLength(RecordCount);
 
-Item newItem = DataContainer.addItem(RecordCount);
+Item newItem = AllContactsContainer.addItem(RecordCount);
 newItem.getItemProperty("TableRecordNum").setValue(RecordCount);
-newItem.getItemProperty("ContactId").setValue(NewContact.SubjectId);
-
-ContactRecord ContactRecord1 = new    ContactRecord     (NewContact.ContactName,"f",NewContact.SubjectId,RecordCount);
-System.out.println(NewContact.ContactPicturePath);
-ALAllContacts.add(ContactRecord1);
-
+newItem.getItemProperty("FIO").setValue(NewContact.ContactName);
+newItem.getItemProperty("ContactPicturePath").setValue(NewContact.ContactPicturePath);
+newItem.getItemProperty("SubjectId").setValue(NewContact.SubjectId);
 }
+
+public void AddContactItem (String vContactFIO, String vContactPicturePath,Integer vSubjectId)
+{
+RecordCount = RecordCount + 1;
+Label LabelContactName = new Label(vContactFIO);
+Image ContactImage = new Image();
+ContactImage.setWidth("30px");
+ContactImage.setHeight("30px");
+ContactImage.setSource(new ThemeResource(vContactPicturePath));
+
+addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
+setPageLength(RecordCount);
+
+Item newItem = AllContactsContainer.addItem(RecordCount);
+newItem.getItemProperty("TableRecordNum").setValue(RecordCount);
+newItem.getItemProperty("FIO").setValue(vContactFIO);
+newItem.getItemProperty("ContactPicturePath").setValue(vContactPicturePath);
+newItem.getItemProperty("SubjectId").setValue(vSubjectId);
+}
+
 
 public void SetMessageListTable(MessageListTable vMsgListTable)
 {
