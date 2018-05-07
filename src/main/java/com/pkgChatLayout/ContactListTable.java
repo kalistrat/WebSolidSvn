@@ -21,7 +21,7 @@ public IndexedContainer SelectedContactsContainer;
 
 //Связанный контейнер
 IndexedContainer ActiveContainer;
-MessageListTable MsgListTable; //Layout который будет обновляться после клика в контакт-листе
+MessageListTable RelMessageListTable; //Layout который будет обновляться после клика в контакт-листе
 
 public ContactListTable ()
 {
@@ -75,15 +75,16 @@ if (SelectedRowObject != null)
 {
 //Номер выделенной строки таблицы
 Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
+System.out.println(IntRowNumber.toString());
 
 //Объект таблицы
-Object Obj = ActiveContainer.getIdByIndex(IntRowNumber - 1);
+Object Obj = ActiveContainer.getIdByIndex(IntRowNumber);
 
 // id субъекта для данной записи таблицы
 Integer SubjectId = Integer.valueOf(ActiveContainer.getContainerProperty(Obj, "SubjectId").getValue().toString());
 
 //Обновляем список сообщений
-MsgListTable.UpdateMessagesList(SubjectId);
+RelMessageListTable.UpdateMessagesList(SubjectId);
 }
 }
 });
@@ -98,17 +99,16 @@ return RecordCount;
 
 public void AddContactItem ( ContactListItem NewContact)
 {
-RecordCount = RecordCount + 1;
 Label LabelContactName = new Label(NewContact.ContactName);
 Image ContactImage = new Image();
 ContactImage.setWidth("30px");
 ContactImage.setHeight("30px");
 ContactImage.setSource(new ThemeResource(NewContact.ContactPicturePath));
-
+RecordCount = RecordCount + 1;
 addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
 setPageLength(RecordCount);
 
-Item newItem = AllContactsContainer.addItem(RecordCount);
+Item newItem = ActiveContainer.addItem(RecordCount);
 newItem.getItemProperty("TableRecordNum").setValue(RecordCount);
 newItem.getItemProperty("FIO").setValue(NewContact.ContactName);
 newItem.getItemProperty("ContactPicturePath").setValue(NewContact.ContactPicturePath);
@@ -117,28 +117,26 @@ newItem.getItemProperty("SubjectId").setValue(NewContact.SubjectId);
 
 public void AddContactItem (String vContactFIO, String vContactPicturePath,Integer vSubjectId)
 {
-RecordCount = RecordCount + 1;
 Label LabelContactName = new Label(vContactFIO);
 Image ContactImage = new Image();
 ContactImage.setWidth("30px");
 ContactImage.setHeight("30px");
 ContactImage.setSource(new ThemeResource(vContactPicturePath));
-
 addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
+RecordCount = RecordCount + 1;
 setPageLength(RecordCount);
 
-Item newItem = AllContactsContainer.addItem(RecordCount);
+Item newItem = ActiveContainer.addItem(RecordCount);
 newItem.getItemProperty("TableRecordNum").setValue(RecordCount);
 newItem.getItemProperty("FIO").setValue(vContactFIO);
 newItem.getItemProperty("ContactPicturePath").setValue(vContactPicturePath);
 newItem.getItemProperty("SubjectId").setValue(vSubjectId);
 }
 
-
-public void SetMessageListTable(MessageListTable vMsgListTable)
+public void NullifyRecordCount()
 {
-MsgListTable = vMsgListTable;
-}
+RecordCount = 0;
 
+}
 
 }

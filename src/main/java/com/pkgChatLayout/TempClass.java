@@ -1,6 +1,5 @@
 package com.pkgChatLayout;
 
-
 public class TempClass
 {
 public static Integer current_user_id;
@@ -23,5 +22,3 @@ NewLineBreak = String.valueOf((char)10);
 }
 
 */
-
-

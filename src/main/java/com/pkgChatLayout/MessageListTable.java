@@ -50,7 +50,7 @@ setPageLength(RecordCount);
 
 public void UpdateMessagesList(Integer second_contact_id)
 {
-this.removeAllItems();
+removeAllItems();
 RecordCount = 0;
 setPageLength(0);
 Integer current_contact_id = TempClass.current_user_id;

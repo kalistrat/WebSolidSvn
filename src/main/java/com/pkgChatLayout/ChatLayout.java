@@ -151,8 +151,7 @@ link.setTargetName("_blank");
 
 VLinkLayout.addComponent(link);
 MessageListTable MsgListTable1 = new MessageListTable();
-ContactListTable1.SetMessageListTable(MsgListTable1);
-
+ContactListTable1.RelMessageListTable = MsgListTable1;
 hlayout22.addComponent(MsgListTable1);
 
 /* hlayout22 */
