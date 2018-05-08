@@ -3,8 +3,6 @@ package com.pkgChatLayout;
 import com.staticMethods;
 import com.vaadin.annotations.Theme;
 
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
@@ -15,7 +13,6 @@ import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import java.io.File;

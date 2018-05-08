@@ -1,9 +1,5 @@
 package com.pkgChatLayout;
 
-import com.vaadin.server.FileResource;
-import com.vaadin.server.Resource;
-import com.vaadin.server.ThemeResource;
-
 /**
 * Created by Dmitriy on 06.01.2018.
 */
@@ -37,4 +33,3 @@ SubjectId = vSubjectId;
 }
 */
 }
-;

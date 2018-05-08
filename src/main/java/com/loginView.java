@@ -68,13 +68,13 @@ public class loginView extends CustomComponent implements View {
                     );
 
 
-                    CallableStatement CheckUserStmt = conn.prepareCall("{? = call f_get_user_password(?)}");
+                    CallableStatement CheckUserStmt = conn.prepareCall("{? = call solid.pkg_user.f_get_user_password(?)}");
                     CheckUserStmt.registerOutParameter (1, Types.VARCHAR);
                     CheckUserStmt.setString(2, username);
                     CheckUserStmt.execute();
                     db_Password = CheckUserStmt.getString(1);
 
-                    CallableStatement GetUserIdStmt = conn.prepareCall("{? = call F_GET_USERID(?)}");
+                    CallableStatement GetUserIdStmt = conn.prepareCall("{? = call solid.pkg_user.F_GET_USERID(?)}");
                     GetUserIdStmt.registerOutParameter(1, Types.INTEGER);
                     GetUserIdStmt.setString(2, username);
                     GetUserIdStmt.execute();

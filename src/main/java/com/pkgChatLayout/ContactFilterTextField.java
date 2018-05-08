@@ -14,25 +14,23 @@ public ContactListTable RelContactListTable;
 
 public  void FilterContactlist()
 {
-String SearchFIO = getValue();
+String SearchFIO = getValue().toLowerCase();
 String FIO,Photopath;
 Integer SubjectId;
 
 RelContactListTable.removeAllItems();
-RelContactListTable.NullifyRecordCount();
-
 RelContactListTable.SelectedContactsContainer.removeAllItems();
+
+RelContactListTable.NullifyRecordCount();
 RelContactListTable.ActiveContainer = RelContactListTable.SelectedContactsContainer;
 
-for (Integer i =0; i<= RelContactListTable.AllContactsContainer.size()-1; i=i+1)
+for (Integer i =1; i<= RelContactListTable.AllContactsContainer.size(); i=i+1)
 {
-//Объект таблицы
-Object Obj = RelContactListTable.AllContactsContainer.getIdByIndex(i);
-FIO = RelContactListTable.AllContactsContainer.getContainerProperty(Obj, "FIO").getValue().toString();
-Photopath = RelContactListTable.AllContactsContainer.getContainerProperty(Obj, "ContactPicturePath").getValue().toString();
-SubjectId = Integer.valueOf(RelContactListTable.AllContactsContainer.getContainerProperty(Obj, "SubjectId").getValue().toString());
+FIO = RelContactListTable.AllContactsContainer.getContainerProperty(i, "FIO").getValue().toString();
+Photopath = RelContactListTable.AllContactsContainer.getContainerProperty(i, "ContactPicturePath").getValue().toString();
+SubjectId = Integer.valueOf(RelContactListTable.AllContactsContainer.getContainerProperty(i, "SubjectId").getValue().toString());
 
-if (FIO.indexOf(SearchFIO) > -1)
+if (FIO.toLowerCase().indexOf(SearchFIO) > -1)
 {
 RelContactListTable.AddContactItem(FIO,Photopath,SubjectId);
 }

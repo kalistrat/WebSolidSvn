@@ -21,7 +21,9 @@ public IndexedContainer SelectedContactsContainer;
 
 //Связанный контейнер
 IndexedContainer ActiveContainer;
-MessageListTable RelMessageListTable; //Layout который будет обновляться после клика в контакт-листе
+
+//Таблица которая будет обновляться после клика в контакт-листе
+MessageListTable RelMessageListTable;
 
 public ContactListTable ()
 {
@@ -50,13 +52,12 @@ addContainerProperty("ContactListTableLabelColumn",Label.class, null);
 setColumnWidth("ContactListTableImageColumn", 40);
 setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 RecordCount = 0;
+setWidth("100%");
+setPageLength(1);
 
 addStyleName(ValoTheme.TABLE_BORDERLESS) ;
 addStyleName(ValoTheme.TABLE_NO_HORIZONTAL_LINES) ;
 addStyleName(ValoTheme.TABLE_NO_VERTICAL_LINES) ;
-
-setWidth("100%");
-setPageLength(1);
 
 // Allow selecting items from the table.
 setSelectable(true);
@@ -75,13 +76,9 @@ if (SelectedRowObject != null)
 {
 //Номер выделенной строки таблицы
 Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
-System.out.println(IntRowNumber.toString());
-
-//Объект таблицы
-Object Obj = ActiveContainer.getIdByIndex(IntRowNumber);
 
 // id субъекта для данной записи таблицы
-Integer SubjectId = Integer.valueOf(ActiveContainer.getContainerProperty(Obj, "SubjectId").getValue().toString());
+Integer SubjectId = Integer.valueOf(ActiveContainer.getContainerProperty(IntRowNumber, "SubjectId").getValue().toString());
 
 //Обновляем список сообщений
 RelMessageListTable.UpdateMessagesList(SubjectId);
@@ -104,6 +101,7 @@ Image ContactImage = new Image();
 ContactImage.setWidth("30px");
 ContactImage.setHeight("30px");
 ContactImage.setSource(new ThemeResource(NewContact.ContactPicturePath));
+
 RecordCount = RecordCount + 1;
 addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
 setPageLength(RecordCount);
@@ -122,8 +120,9 @@ Image ContactImage = new Image();
 ContactImage.setWidth("30px");
 ContactImage.setHeight("30px");
 ContactImage.setSource(new ThemeResource(vContactPicturePath));
-addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
+
 RecordCount = RecordCount + 1;
+addItem(new Object[]{ContactImage, LabelContactName}, RecordCount);
 setPageLength(RecordCount);
 
 Item newItem = ActiveContainer.addItem(RecordCount);
@@ -136,7 +135,6 @@ newItem.getItemProperty("SubjectId").setValue(vSubjectId);
 public void NullifyRecordCount()
 {
 RecordCount = 0;
-
 }
 
 }
