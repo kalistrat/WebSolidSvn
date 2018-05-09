@@ -74,7 +74,7 @@ public class loginView extends CustomComponent implements View {
                     CheckUserStmt.execute();
                     db_Password = CheckUserStmt.getString(1);
 
-                    CallableStatement GetUserIdStmt = conn.prepareCall("{? = call solid.pkg_user.F_GET_USERID(?)}");
+                    CallableStatement GetUserIdStmt = conn.prepareCall("{? = call solid.pkg_user.f_get_userid(?)}");
                     GetUserIdStmt.registerOutParameter(1, Types.INTEGER);
                     GetUserIdStmt.setString(2, username);
                     GetUserIdStmt.execute();
