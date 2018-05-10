@@ -3,19 +3,15 @@ package com.pkgChatLayout;
 import com.staticMethods;
 import com.vaadin.annotations.Theme;
 
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.VaadinService;
+import com.vaadin.server.ThemeResource;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
-
-import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
-import java.io.File;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -140,13 +136,6 @@ hlayout13.addComponent(ContactListTable1);
 
 /* hlayout22 */
 
-VerticalLayout VLinkLayout = new VerticalLayout();
-VLinkLayout.setWidth("100%");
-
-Link link = new Link("Take me a away to a faraway land", new ExternalResource("http://vaadin.com/"));
-link.setTargetName("_blank");
-
-VLinkLayout.addComponent(link);
 MessageListTable MsgListTable1 = new MessageListTable();
 ContactListTable1.RelMessageListTable = MsgListTable1;
 hlayout22.addComponent(MsgListTable1);
@@ -157,12 +146,10 @@ hlayout22.addComponent(MsgListTable1);
 Button ChooseFilesButton = new Button("");
 Button SendMessageButton = new Button("Отправить");
 
-String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+ThemeResource ThemeResource1 = new ThemeResource("paperclip.ico");
 
 // Image as a file resource
-FileResource resource = new FileResource(new File(basepath + "/VAADIN/themes/mytheme/paperclip.ico"));
-
-ChooseFilesButton.setIcon(resource);
+ChooseFilesButton.setIcon(ThemeResource1);
 ChooseFilesButton.setWidth("40px");
 SendMessageButton.setWidth("110px");
 ChooseFilesButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
@@ -175,17 +162,17 @@ MessageTextArea.setRows(1);
 Table MessageTextAreaTable = new Table();
 MessageTextAreaTable.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 MessageTextAreaTable.addContainerProperty("MessageTextAreaTableTextAreaColumn", TextArea.class, null);
-MessageTextAreaTable.addContainerProperty("MessageTextAreaTableChooseFilesButton", Button.class, null);
 MessageTextAreaTable.addContainerProperty("MessageTextAreaTableSendMessageButton", Button.class, null);
+MessageTextAreaTable.addContainerProperty("MessageTextAreaTableChooseFilesButton", Button.class, null);
 
-MessageTextAreaTable.setColumnWidth("MessageTextAreaTableTextAreaColumn", 700);
-MessageTextAreaTable.setColumnWidth("MessageTextAreaTableChooseFilesButton", 50);
+MessageTextAreaTable.setColumnWidth("MessageTextAreaTableTextAreaColumn", 750);
 MessageTextAreaTable.setColumnWidth("MessageTextAreaTableSendMessageButton", 150);
+MessageTextAreaTable.setColumnWidth("MessageTextAreaTableChooseFilesButton", 80);
 
 MessageTextAreaTable.addStyleName(ValoTheme.TABLE_BORDERLESS);
 MessageTextAreaTable.addStyleName(ValoTheme.TABLE_NO_VERTICAL_LINES);
 MessageTextAreaTable.setWidth("100%");
-MessageTextAreaTable.addItem(new Object[]{MessageTextArea, ChooseFilesButton, SendMessageButton}, 1);
+MessageTextAreaTable.addItem(new Object[]{MessageTextArea, SendMessageButton, ChooseFilesButton}, 1);
 MessageTextAreaTable.setPageLength(1);
 hlayout23.addComponent(MessageTextAreaTable);
 

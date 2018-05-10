@@ -16,7 +16,11 @@ import com.vaadin.ui.themes.ValoTheme;
 public class ContactListTable extends Table
 {
 private Integer RecordCount ;
+
+//Контейнер для хранения данных всех контактов
 public IndexedContainer AllContactsContainer;
+
+//Контейнер для хранения данных найденных контактов
 public IndexedContainer SelectedContactsContainer;
 
 //Связанный контейнер

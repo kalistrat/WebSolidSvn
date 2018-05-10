@@ -17,7 +17,7 @@ ContactName = vContactName;
 SubjectId = vSubjectId;
 }
 
-    /*
+/*
 public ContactListItem( Resource vContactPicture, String vContactName, Integer vSubjectId )
 {
 ContactPicture = vContactPicture;

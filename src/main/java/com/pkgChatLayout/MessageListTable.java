@@ -43,11 +43,11 @@ return RecordCount;
 
 public void AddMessage(MessageItem NewMessage)
 {
-addItem(new Object[]{NewMessage}, RecordCount + 1);
 RecordCount = RecordCount + 1;
+addItem(new Object[]{NewMessage}, RecordCount);
 setPageLength(RecordCount);
 }
-
+//Обновить список сообщений для указанного id собеседника
 public void UpdateMessagesList(Integer second_contact_id)
 {
 removeAllItems();

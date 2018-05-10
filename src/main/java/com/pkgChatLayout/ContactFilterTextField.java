@@ -9,18 +9,17 @@ import com.vaadin.ui.TextField;
 public class ContactFilterTextField extends TextField
 {
 
-//ContactListTable который будем обновлять
+//ContactListTable которую будем обновлять
 public ContactListTable RelContactListTable;
 
-public  void FilterContactlist()
+public void FilterContactlist()
 {
 String SearchFIO = getValue().toLowerCase();
-String FIO,Photopath;
+String FIO, Photopath;
 Integer SubjectId;
 
 RelContactListTable.removeAllItems();
 RelContactListTable.SelectedContactsContainer.removeAllItems();
-
 RelContactListTable.NullifyRecordCount();
 RelContactListTable.ActiveContainer = RelContactListTable.SelectedContactsContainer;
 
