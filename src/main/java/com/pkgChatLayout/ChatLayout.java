@@ -15,6 +15,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -160,6 +161,8 @@ MessageTextArea.setRows(1);
 //MessageTextArea.setSizeFull();
 
 Table MessageTextAreaTable = new Table();
+
+MessageTextAreaTable.addStyleName("components-inside");
 MessageTextAreaTable.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 MessageTextAreaTable.addContainerProperty("MessageTextAreaTableTextAreaColumn", TextArea.class, null);
 MessageTextAreaTable.addContainerProperty("MessageTextAreaTableSendMessageButton", Button.class, null);
@@ -175,6 +178,36 @@ MessageTextAreaTable.setWidth("100%");
 MessageTextAreaTable.addItem(new Object[]{MessageTextArea, SendMessageButton, ChooseFilesButton}, 1);
 MessageTextAreaTable.setPageLength(1);
 hlayout23.addComponent(MessageTextAreaTable);
+
+
+SendMessageButton.addClickListener(new Button.ClickListener()
+{
+@Override public void buttonClick(Button.ClickEvent clickEvent)
+{
+Integer v_from_user_id = TempClass.current_user_id;
+Integer v_to_user_id = TempClass.second_user_id;
+String v_message_text = MessageTextArea.getValue();
+Connection con;
+
+try
+{
+Class.forName(staticMethods.JDBC_DRIVER);
+con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
+PreparedStatement PrepStm1  = con.prepareCall("call solid.pkg_messagelist.f_addmessage(?,?,?)");
+PrepStm1.setInt(1,v_from_user_id);
+PrepStm1.setInt(2,v_to_user_id);
+PrepStm1.setString(3,v_message_text);
+PrepStm1.execute();
+con.close();
+}
+catch (Exception exp)
+{
+exp.printStackTrace();
+}
+MsgListTable1.UpdateMessagesList(TempClass.second_user_id);
+MessageTextArea.clear();;
+}
+});
 
 /* hlayout23 */
 

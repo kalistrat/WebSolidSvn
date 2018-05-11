@@ -84,6 +84,8 @@ Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
 // id субъекта для данной записи таблицы
 Integer SubjectId = Integer.valueOf(ActiveContainer.getContainerProperty(IntRowNumber, "SubjectId").getValue().toString());
 
+TempClass.second_user_id = SubjectId;
+
 //Обновляем список сообщений
 RelMessageListTable.UpdateMessagesList(SubjectId);
 }

@@ -57,7 +57,7 @@ Integer current_contact_id = TempClass.current_user_id;
 Connection Connection1 = null;
 
 String SQLString =
-"select mes.message_id, solid.pkg_user.f_get_full_fio (mes.to_user_id) to_fio "
+"select mes.message_id, solid.pkg_user.f_get_full_fio (mes.from_user_id) to_fio "
 + ",mes.message_text ,mes.mesage_date "
 + ",decode (mes.from_user_id, ?, 1,0) inc_msg"
 + ",su.user_photo_link from solid.message mes "
