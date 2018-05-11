@@ -9,7 +9,7 @@ import com.vaadin.ui.VerticalLayout;
 
 public class MessageItem extends VerticalLayout
 {
-Image ContactImage;
+String ContactPicturePath;
 String MessageText;
 String ContactName;
 String MessageDate;
