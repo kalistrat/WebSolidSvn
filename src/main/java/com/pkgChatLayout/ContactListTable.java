@@ -1,5 +1,6 @@
 package com.pkgChatLayout;
 
+import com.staticMethods;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
@@ -8,6 +9,9 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
+import org.w3c.dom.Document;
+
+import java.sql.*;
 
 /**
 * Created by Dmitriy on 07.01.2018.
@@ -70,6 +74,9 @@ setSelectable(true);
 setImmediate(true);
 
 ActiveContainer = AllContactsContainer;
+
+GetFullContactListXML();
+
 addValueChangeListener(new Property.ValueChangeListener()
 {
 @Override public void valueChange(Property.ValueChangeEvent valueChangeEvent)
@@ -90,10 +97,54 @@ TempClass.second_user_id = SubjectId;
 RelMessageListTable.UpdateMessagesList(SubjectId);
 }
 }
-});
+}
+);
 
 }
 
+private String GetFullContactListXML()
+{
+try
+{
+Class.forName(staticMethods.JDBC_DRIVER);
+Connection Con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
+CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_contactlist.f_get_fullcontactlistxml(?)}");
+Stmt.registerOutParameter(1, Types.CLOB);
+Stmt.setInt(2,TempClass.current_user_id);
+Stmt.execute();
+String resultStr = staticMethods.clobToString(Stmt.getClob(1));
+Con.close();
+return resultStr;
+}
+catch(SQLException se)
+{
+se.printStackTrace();
+return null;
+}
+catch(Exception e)
+{
+e.printStackTrace();
+return null;
+}
+
+}
+
+
+public void GetContactList()
+{
+try
+{
+Document xmlDocument = staticMethods.loadXMLFromString(GetFullContactListXML());
+
+
+
+}
+catch (Exception ex)
+{
+ex.printStackTrace();
+}
+
+}
 
 public Integer GetRecordCount()
 {

@@ -58,7 +58,7 @@ Connection Connection1 = null;
 
 String SQLString =
 "select mes.message_id, solid.pkg_user.f_get_full_fio (mes.from_user_id) to_fio "
-+ ",mes.message_text ,mes.mesage_date "
++ ",mes.message_text ,mes.message_date "
 + ",decode (mes.from_user_id, ?, 1,0) inc_msg"
 + ",su.user_photo_link from solid.message mes "
 + "join solid.system_users su on mes.from_user_id = su.user_id "

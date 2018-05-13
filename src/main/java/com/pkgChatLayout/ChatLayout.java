@@ -76,7 +76,8 @@ hlayout12.addComponent(ContactFilterTextField1);
 
 ContactListTable ContactListTable1 = new ContactListTable();
 ContactListTable1.setWidth("100%");
-
+ContactListTable1.GetContactList();
+    /*
 String SQLString = "select su.user_id,su.second_name , su.first_name , su.middle_name, su.user_photo_link" +
 " from solid.system_users su where su.user_id!=" + TempClass.current_user_id.toString() + " order by su.user_id asc";
 
@@ -126,7 +127,9 @@ catch (Exception e2)
 
 e2.printStackTrace();
 }
-ContactFilterTextField1.RelContactListTable = ContactListTable1;
+*/
+
+    ContactFilterTextField1.RelContactListTable = ContactListTable1;
 hlayout13.addComponent(ContactListTable1);
 
 /* hlayout13 */
@@ -222,5 +225,5 @@ vlayout2.addComponent(hlayout23);
 this.addComponent(HrSplitPanel);
 }
 
-}
+
 }
