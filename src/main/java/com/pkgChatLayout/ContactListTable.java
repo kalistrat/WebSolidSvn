@@ -9,16 +9,26 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
+import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Types;
 
 /**
 * Created by Dmitriy on 07.01.2018.
 */
 
+
 public class ContactListTable extends Table
 {
+
 private Integer RecordCount ;
 
 //Контейнер для хранения данных всех контактов
@@ -108,7 +118,7 @@ try
 {
 Class.forName(staticMethods.JDBC_DRIVER);
 Connection Con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
-CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_contactlist.f_get_fullcontactlistxml(?)}");
+CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_contactlist.f_get_fullcontactlistclob(?)}");
 Stmt.registerOutParameter(1, Types.CLOB);
 Stmt.setInt(2,TempClass.current_user_id);
 Stmt.execute();
@@ -134,9 +144,17 @@ public void GetContactList()
 {
 try
 {
-Document xmlDocument = staticMethods.loadXMLFromString(GetFullContactListXML());
+Document XMLDocument = staticMethods.loadXMLFromString(GetFullContactListXML());
+NodeList nodes = XMLDocument.getElementsByTagName("contact");
 
-
+for (int i = 0; i < nodes.getLength(); i++)
+{
+Element element = (Element) nodes.item(i);
+Node node_user_id = element.getElementsByTagName("user_id").item(0);
+Node node_fio = element.getElementsByTagName("fio").item(0);
+Node node_user_photo_link = element.getElementsByTagName("user_photo_link").item(0);
+AddContactItem(node_fio.getTextContent(), node_user_photo_link.getTextContent(), Integer.valueOf(node_user_id.getTextContent()));
+}
 
 }
 catch (Exception ex)

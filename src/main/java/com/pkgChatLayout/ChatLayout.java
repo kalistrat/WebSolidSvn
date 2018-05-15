@@ -77,59 +77,8 @@ hlayout12.addComponent(ContactFilterTextField1);
 ContactListTable ContactListTable1 = new ContactListTable();
 ContactListTable1.setWidth("100%");
 ContactListTable1.GetContactList();
-    /*
-String SQLString = "select su.user_id,su.second_name , su.first_name , su.middle_name, su.user_photo_link" +
-" from solid.system_users su where su.user_id!=" + TempClass.current_user_id.toString() + " order by su.user_id asc";
 
-Connection Connection1 = null;
-
-try
-{
-Class.forName(staticMethods.JDBC_DRIVER);
-Connection1 = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
-
-Statement Statement = Connection1.createStatement();
-ResultSet ResultSet1 = Statement.executeQuery(SQLString);
-
-Integer rec_user_id;
-String rec_fio;
-
-while (ResultSet1.next())
-{
-rec_user_id = ResultSet1.getInt(1);
-rec_fio = ResultSet1.getString(2) + " " + ResultSet1.getString(3) + " " + ResultSet1.getString(4);
-ContactListItem NewContact2 = new ContactListItem(ResultSet1.getString(5), rec_fio, rec_user_id);
-ContactListTable1.AddContactItem(NewContact2);
-}
-ResultSet1.close();
-}
-
-catch (SQLException SQLe)
-{
-SQLe.printStackTrace();
-
-}
-catch (Exception e1)
-{
-e1.printStackTrace();
-}
-
-finally
-{
-if (Connection1 != null)
-
-try
-{
-Connection1.close();
-}
-catch (Exception e2)
-{
-
-e2.printStackTrace();
-}
-*/
-
-    ContactFilterTextField1.RelContactListTable = ContactListTable1;
+ContactFilterTextField1.RelContactListTable = ContactListTable1;
 hlayout13.addComponent(ContactListTable1);
 
 /* hlayout13 */

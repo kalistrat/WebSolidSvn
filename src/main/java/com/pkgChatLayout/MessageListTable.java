@@ -9,13 +9,21 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.sql.Types;
 import java.text.SimpleDateFormat;
+
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
 * Created by Dmitriy on 07.01.2018.
@@ -47,13 +55,72 @@ RecordCount = RecordCount + 1;
 addItem(new Object[]{NewMessage}, RecordCount);
 setPageLength(RecordCount);
 }
+private String GetMessagesListString (Integer second_contact_id)
+{
+try
+{
+Class.forName(staticMethods.JDBC_DRIVER);
+Connection Con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
+CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_contactlist.f_get_messagelistclob(?,?)}");
+Stmt.registerOutParameter(1, Types.CLOB);
+Stmt.setInt(2,TempClass.current_user_id);
+Stmt.setInt(3,second_contact_id);
+Stmt.execute();
+String resultStr = staticMethods.clobToString(Stmt.getClob(1));
+Con.close();
+return resultStr;
+}
+catch(SQLException se)
+{
+se.printStackTrace();
+return null;
+}
+catch(Exception e)
+{
+e.printStackTrace();
+return null;
+}
+
+};
 //Обновить список сообщений для указанного id собеседника
-public void UpdateMessagesList(Integer second_contact_id)
+public void UpdateMessagesList2 (Integer second_contact_id)
 {
 removeAllItems();
 RecordCount = 0;
 setPageLength(0);
 Integer current_contact_id = TempClass.current_user_id;
+
+try
+{
+Document XMLDocument = staticMethods.loadXMLFromString(GetMessagesListString(second_contact_id));
+NodeList nodes = XMLDocument.getElementsByTagName("contact");
+
+
+for (int i = 0; i < nodes.getLength(); i++)
+{
+Element element = (Element) nodes.item(i);
+Node node_from_user_fio= element.getElementsByTagName("from_user_fio").item(0);
+Node node_message_text= element.getElementsByTagName("message_text").item(0);
+Node node_message_date= element.getElementsByTagName("message_date").item(0);
+Node node_inc_msg= element.getElementsByTagName("inc_msg").item(0);
+Node node_user_photo_link= element.getElementsByTagName("user_photo_link").item(0);
+MessageItem NewMessage = new MessageItem(node_user_photo_link.getTextContent() ,node_message_text.getTextContent() ,node_from_user_fio.getTextContent() ,node_message_date.getTextContent(), null , (Integer.valueOf(node_inc_msg.getTextContent()) == 1 ));
+AddMessage(NewMessage);
+}
+
+
+}
+catch (Exception ex)
+{
+ex.printStackTrace();
+}
+
+
+}
+
+/*
+public void UpdateMessagesList(Integer second_contact_id)
+{
 Connection Connection1 = null;
 
 String SQLString =
@@ -170,5 +237,5 @@ e2.printStackTrace();
 }
 
 } // UpdateMessagesList
-
+*/
 }
