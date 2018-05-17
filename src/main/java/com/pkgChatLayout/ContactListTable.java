@@ -104,7 +104,7 @@ Integer SubjectId = Integer.valueOf(ActiveContainer.getContainerProperty(IntRowN
 TempClass.second_user_id = SubjectId;
 
 //Обновляем список сообщений
-RelMessageListTable.UpdateMessagesList(SubjectId);
+RelMessageListTable.UpdateMessagesList2(SubjectId);
 }
 }
 }

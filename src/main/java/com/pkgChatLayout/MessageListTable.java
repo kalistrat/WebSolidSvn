@@ -11,6 +11,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,11 +58,12 @@ setPageLength(RecordCount);
 }
 private String GetMessagesListString (Integer second_contact_id)
 {
+
 try
 {
 Class.forName(staticMethods.JDBC_DRIVER);
 Connection Con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
-CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_contactlist.f_get_messagelistclob(?,?)}");
+CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_messagelist.f_get_messagelistclob(?,?)}");
 Stmt.registerOutParameter(1, Types.CLOB);
 Stmt.setInt(2,TempClass.current_user_id);
 Stmt.setInt(3,second_contact_id);
@@ -85,6 +87,8 @@ return null;
 //Обновить список сообщений для указанного id собеседника
 public void UpdateMessagesList2 (Integer second_contact_id)
 {
+
+
 removeAllItems();
 RecordCount = 0;
 setPageLength(0);
@@ -93,12 +97,12 @@ Integer current_contact_id = TempClass.current_user_id;
 try
 {
 Document XMLDocument = staticMethods.loadXMLFromString(GetMessagesListString(second_contact_id));
-NodeList nodes = XMLDocument.getElementsByTagName("contact");
-
+NodeList nodes = XMLDocument.getElementsByTagName("message");
 
 for (int i = 0; i < nodes.getLength(); i++)
 {
 Element element = (Element) nodes.item(i);
+Integer mesasge_id = Integer.valueOf(element.getElementsByTagName("message_id").item(0).getTextContent());
 Node node_from_user_fio= element.getElementsByTagName("from_user_fio").item(0);
 Node node_message_text= element.getElementsByTagName("message_text").item(0);
 Node node_message_date= element.getElementsByTagName("message_date").item(0);
@@ -152,7 +156,6 @@ Integer msg_id;
 String msg_date_text;
 Boolean msg_incoming;
 
-SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 String SQLString2 = "select el.link_url, el.link_title from solid.external_link el "
 + "where el.message_id = ? order by el.external_link_id asc";

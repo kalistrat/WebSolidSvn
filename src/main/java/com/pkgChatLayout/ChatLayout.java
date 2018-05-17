@@ -156,7 +156,7 @@ catch (Exception exp)
 {
 exp.printStackTrace();
 }
-MsgListTable1.UpdateMessagesList(TempClass.second_user_id);
+MsgListTable1.UpdateMessagesList2(TempClass.second_user_id);
 MessageTextArea.clear();;
 }
 });
