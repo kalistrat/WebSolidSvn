@@ -63,7 +63,7 @@ try
 {
 Class.forName(staticMethods.JDBC_DRIVER);
 Connection Con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
-CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_messagelist.f_get_messagelistclob(?,?)}");
+CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_messagelist.f_getmessagelistxml(?,?)}");
 Stmt.registerOutParameter(1, Types.CLOB);
 Stmt.setInt(2,TempClass.current_user_id);
 Stmt.setInt(3,second_contact_id);
@@ -97,18 +97,44 @@ Integer current_contact_id = TempClass.current_user_id;
 try
 {
 Document XMLDocument = staticMethods.loadXMLFromString(GetMessagesListString(second_contact_id));
-NodeList nodes = XMLDocument.getElementsByTagName("message");
+NodeList NodeListMessages = XMLDocument.getElementsByTagName("message");
 
-for (int i = 0; i < nodes.getLength(); i++)
+for (int i = 0; i < NodeListMessages.getLength(); i++)
 {
-Element element = (Element) nodes.item(i);
-Integer mesasge_id = Integer.valueOf(element.getElementsByTagName("message_id").item(0).getTextContent());
-Node node_from_user_fio= element.getElementsByTagName("from_user_fio").item(0);
-Node node_message_text= element.getElementsByTagName("message_text").item(0);
-Node node_message_date= element.getElementsByTagName("message_date").item(0);
-Node node_inc_msg= element.getElementsByTagName("inc_msg").item(0);
-Node node_user_photo_link= element.getElementsByTagName("user_photo_link").item(0);
-MessageItem NewMessage = new MessageItem(node_user_photo_link.getTextContent() ,node_message_text.getTextContent() ,node_from_user_fio.getTextContent() ,node_message_date.getTextContent(), null , (Integer.valueOf(node_inc_msg.getTextContent()) == 1 ));
+Element Element1 = (Element) NodeListMessages.item(i);
+Node mode_from_user_name= Element1.getElementsByTagName("from_user_name").item(0);
+Node node_message_text = Element1.getElementsByTagName("message_text").item(0);
+Node node_message_date = Element1.getElementsByTagName("message_date").item(0);
+Node node_incoming_message = Element1.getElementsByTagName("incoming_message").item(0);
+Node node_user_photo_link = Element1.getElementsByTagName("user_photo_link").item(0);
+
+
+//External links
+NodeList NodeListLinks = XMLDocument.getElementsByTagName("links");
+
+Integer msg_link_count = 0;
+VerticalLayout LinkLayout = new VerticalLayout();
+
+for (int j = 0; j < NodeListLinks.getLength(); j++)
+{
+Element Element2 = (Element) NodeListLinks.item(j);
+Node node_link_url = Element2.getElementsByTagName("link_url").item(0);
+Node node_link_title = Element2.getElementsByTagName("link_title").item(0);
+
+msg_link_count = msg_link_count+1;
+
+Link ExtLink = new Link(node_link_title.getTextContent(),new ExternalResource(node_link_url.getTextContent()));
+ExtLink.setTargetName("_blank");
+LinkLayout.addComponent(ExtLink);
+}
+//External links
+
+if (msg_link_count == 0)
+{
+LinkLayout = null;
+}
+
+MessageItem NewMessage = new MessageItem(node_user_photo_link.getTextContent() ,node_message_text.getTextContent() ,mode_from_user_name.getTextContent() ,node_message_date.getTextContent(), LinkLayout , (Integer.valueOf(node_incoming_message.getTextContent()) == 1 ));
 AddMessage(NewMessage);
 }
 

@@ -118,7 +118,7 @@ try
 {
 Class.forName(staticMethods.JDBC_DRIVER);
 Connection Con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
-CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_contactlist.f_get_fullcontactlistclob(?)}");
+CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_contactlist.f_getfullcontactlistxml(?)}");
 Stmt.registerOutParameter(1, Types.CLOB);
 Stmt.setInt(2,TempClass.current_user_id);
 Stmt.execute();
@@ -146,13 +146,17 @@ try
 {
 Document XMLDocument = staticMethods.loadXMLFromString(GetFullContactListXML());
 NodeList nodes = XMLDocument.getElementsByTagName("contact");
-
 for (int i = 0; i < nodes.getLength(); i++)
 {
+
 Element element = (Element) nodes.item(i);
 Node node_user_id = element.getElementsByTagName("user_id").item(0);
 Node node_fio = element.getElementsByTagName("fio").item(0);
 Node node_user_photo_link = element.getElementsByTagName("user_photo_link").item(0);
+System.out.print(   node_fio.getTextContent().toString());
+System.out.print(node_user_photo_link.getTextContent().toString());
+System.out.print(node_user_id.getTextContent().toString());
+
 AddContactItem(node_fio.getTextContent(), node_user_photo_link.getTextContent(), Integer.valueOf(node_user_id.getTextContent()));
 }
 
@@ -190,7 +194,9 @@ newItem.getItemProperty("SubjectId").setValue(NewContact.SubjectId);
 
 public void AddContactItem (String vContactFIO, String vContactPicturePath,Integer vSubjectId)
 {
-Label LabelContactName = new Label(vContactFIO);
+    System.out.println("here1");
+
+    Label LabelContactName = new Label(vContactFIO);
 Image ContactImage = new Image();
 ContactImage.setWidth("30px");
 ContactImage.setHeight("30px");
