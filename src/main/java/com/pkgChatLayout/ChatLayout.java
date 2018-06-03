@@ -16,9 +16,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 
 /**
 * Created by Dmitriy on 05.01.2018.
@@ -156,8 +154,8 @@ catch (Exception exp)
 {
 exp.printStackTrace();
 }
-MsgListTable1.UpdateMessagesList2(TempClass.second_user_id);
-MessageTextArea.clear();;
+MsgListTable1.UpdateMessagesList(TempClass.second_user_id);
+MessageTextArea.clear();
 }
 });
 
