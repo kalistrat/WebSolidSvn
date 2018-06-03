@@ -129,24 +129,26 @@ MessageTextAreaTable.addItem(new Object[]{MessageTextArea, SendMessageButton, Ch
 MessageTextAreaTable.setPageLength(1);
 hlayout23.addComponent(MessageTextAreaTable);
 
-
 SendMessageButton.addClickListener(new Button.ClickListener()
 {
 @Override public void buttonClick(Button.ClickEvent clickEvent)
 {
+String v_message_text = MessageTextArea.getValue();
+
+if (v_message_text.length() != 0)
+{
 Integer v_from_user_id = TempClass.current_user_id;
 Integer v_to_user_id = TempClass.second_user_id;
-String v_message_text = MessageTextArea.getValue();
 Connection con;
 
 try
 {
 Class.forName(staticMethods.JDBC_DRIVER);
 con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
-PreparedStatement PrepStm1  = con.prepareCall("call solid.pkg_messagelist.f_addmessage(?,?,?)");
-PrepStm1.setInt(1,v_from_user_id);
-PrepStm1.setInt(2,v_to_user_id);
-PrepStm1.setString(3,v_message_text);
+PreparedStatement PrepStm1 = con.prepareCall("call solid.pkg_messagelist.f_addmessage(?,?,?)");
+PrepStm1.setInt(1, v_from_user_id);
+PrepStm1.setInt(2, v_to_user_id);
+PrepStm1.setString(3, v_message_text);
 PrepStm1.execute();
 con.close();
 }
@@ -156,6 +158,7 @@ exp.printStackTrace();
 }
 MsgListTable1.UpdateMessagesList(TempClass.second_user_id);
 MessageTextArea.clear();
+}
 }
 });
 

@@ -26,10 +26,10 @@ import javax.xml.xpath.XPathFactory;
 /**
 * Created by Dmitriy on 07.01.2018.
 
- // http://qaru.site/questions/281307/java-elementgetelementsbytagname-restrict-to-top-level
+// http://qaru.site/questions/281307/java-elementgetelementsbytagname-restrict-to-top-level
 
- Чтобы брать ссылки для текущего сообщения, так как
- XMLDocument.getElementsByTagName("links") возвращает все ссылки
+Чтобы брать ссылки для текущего сообщения, так как
+XMLDocument.getElementsByTagName("links") возвращает все ссылки
 */
 
 public class MessageListTable extends Table
@@ -84,8 +84,8 @@ catch(Exception e)
 e.printStackTrace();
 return null;
 }
-
 }
+
 //Обновить список сообщений для указанного id собеседника
 public void UpdateMessagesList (Integer second_contact_id)
 {
@@ -129,25 +129,32 @@ VerticalLayout LinkLayout = new VerticalLayout();
 
 //Список <LINK_URL> <LINK_TITLE> текущего сообщения
 NodeList NodeLinksData = NodeListLinks.item(0).getChildNodes();
-String  link_url, link_title;
 
-link_url = "";
-link_title = "";
+String link_url="" ;
+String link_title="" ;
 
+// Проходим по списку элементов
 for (int k = 0; k < NodeLinksData.getLength(); k++)
 {
 
+//Если текущий элемент - <LINK_URL>, то сохраняем значение элемента в link_url
 if (NodeLinksData.item(k).getNodeName().equals("LINK_URL"))
 {
 link_url = NodeLinksData.item(k).getTextContent();
 }
 
+//Если текущий элемент - <LINK_TITLE>, то сохраняем значение элемента в link_title
 if (NodeLinksData.item(k).getNodeName().equals("LINK_TITLE"))
 {
 link_title = NodeLinksData.item(k).getTextContent();
 }
 
- //Если есть URL и описание ссылки - добавляем ссылку в список
+//На четных шагах прохода по циклу анализируем link_url и  link_title
+//К данному шагу они уже определены
+if ((k+1)%2 == 0)
+{
+
+//Если есть URL и описание ссылки - добавляем ссылку в список
 if ((!link_url.equals( "")) && (!link_title.equals("") ))
 {
 msg_link_count = msg_link_count + 1;
@@ -155,19 +162,6 @@ Link ExtLink = new Link(link_title, new ExternalResource(link_url));
 ExtLink.setTargetName("_blank");
 LinkLayout.addComponent(ExtLink);
 }
-/*
-Если (k+1)%2) = 0 значит мы работает с четным элементом
-списка - сейчас мы получили значение из <LINK_TITLE>
-
-Надо очистить
-
-
-  */
-if (((k+1)%2) ==0)
-{
-link_title = "";
-link_url = "";
-
 }
 }
 //External links
