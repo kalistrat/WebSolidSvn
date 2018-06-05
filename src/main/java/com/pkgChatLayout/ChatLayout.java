@@ -88,7 +88,7 @@ hlayout13.addComponent(ContactListTable1);
 /* hlayout22 */
 
 MessageListTable MsgListTable1 = new MessageListTable();
-ContactListTable1.RelMessageListTable = MsgListTable1;
+TempClass.RelMessageListTable = MsgListTable1;
 hlayout22.addComponent(MsgListTable1);
 
 /* hlayout22 */

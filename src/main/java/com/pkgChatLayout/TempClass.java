@@ -11,4 +11,7 @@ public static Integer second_user_id;
 
 //Разделитель папок в пути к картинкам
 public static String FolderSeparateCharacter;
+
+//MessageListTable которую будем обновлять после фильтрации в ContactListTable
+public static MessageListTable RelMessageListTable;
 }

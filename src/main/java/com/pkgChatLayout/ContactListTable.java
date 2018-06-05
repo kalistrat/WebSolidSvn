@@ -24,10 +24,8 @@ import java.sql.Types;
 * Created by Dmitriy on 07.01.2018.
 */
 
-
 public class ContactListTable extends Table
 {
-
 private Integer RecordCount ;
 
 //Контейнер для хранения данных всех контактов
@@ -38,9 +36,6 @@ public IndexedContainer SelectedContactsContainer;
 
 //Связанный контейнер
 IndexedContainer ActiveContainer;
-
-//Таблица которая будет обновляться после клика в контакт-листе
-MessageListTable RelMessageListTable;
 
 public ContactListTable ()
 {
@@ -103,7 +98,7 @@ Integer SubjectId = Integer.valueOf(ActiveContainer.getContainerProperty(IntRowN
 TempClass.second_user_id = SubjectId;
 
 //Обновляем список сообщений
-RelMessageListTable.UpdateMessagesList(SubjectId);
+TempClass.RelMessageListTable.UpdateMessagesList(SubjectId);
 }
 }
 }
