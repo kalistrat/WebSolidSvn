@@ -2,23 +2,34 @@ package com.pkgChatLayout;
 
 import com.staticMethods;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.ThemeResource;
 
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
-import java.text.SimpleDateFormat;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 /**
 * Created by Dmitriy on 07.01.2018.
+
+// http://qaru.site/questions/281307/java-elementgetelementsbytagname-restrict-to-top-level
+
+Чтобы брать ссылки для текущего сообщения, так как
+XMLDocument.getElementsByTagName("links") возвращает все ссылки
 */
 
 public class MessageListTable extends Table
@@ -47,128 +58,128 @@ RecordCount = RecordCount + 1;
 addItem(new Object[]{NewMessage}, RecordCount);
 setPageLength(RecordCount);
 }
-//Обновить список сообщений для указанного id собеседника
-public void UpdateMessagesList(Integer second_contact_id)
+private String GetMessagesListString (Integer second_contact_id)
 {
-removeAllItems();
-RecordCount = 0;
-setPageLength(0);
-Integer current_contact_id = TempClass.current_user_id;
-Connection Connection1 = null;
-
-String SQLString =
-"select mes.message_id, solid.pkg_user.f_get_full_fio (mes.from_user_id) to_fio "
-+ ",mes.message_text ,mes.mesage_date "
-+ ",decode (mes.from_user_id, ?, 1,0) inc_msg"
-+ ",su.user_photo_link from solid.message mes "
-+ "join solid.system_users su on mes.from_user_id = su.user_id "
-+ "where ((mes.from_user_id = ?) and (mes.to_user_id = ?) or (mes.from_user_id = ?) and (mes.to_user_id = ?)) "
-+ "order by mes.message_id asc";
 
 try
 {
 Class.forName(staticMethods.JDBC_DRIVER);
-Connection1 = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
-PreparedStatement PrepStm1  = Connection1.prepareCall(SQLString);
-
-PrepStm1.setInt(1,current_contact_id);
-PrepStm1.setInt(2,current_contact_id);
-PrepStm1.setInt(3,second_contact_id);
-PrepStm1.setInt(4,second_contact_id);
-PrepStm1.setInt(5,current_contact_id);
-
-ResultSet ResultSet1 = PrepStm1.executeQuery();
-
-String msg_from_fio;
-String msg_text;
-Integer msg_id;
-String msg_date_text;
-Boolean msg_incoming;
-
-SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-
-String SQLString2 = "select el.link_url, el.link_title from solid.external_link el "
-+ "where el.message_id = ? order by el.external_link_id asc";
-
-PreparedStatement PrepStm2  = Connection1.prepareCall(SQLString2);
-Integer msg_link_count;
-
-while (ResultSet1.next())
+Connection Con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
+CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_messagelist.f_getmessagelistxml(?,?)}");
+Stmt.registerOutParameter(1, Types.CLOB);
+Stmt.setInt(2,TempClass.current_user_id);
+Stmt.setInt(3,second_contact_id);
+Stmt.execute();
+String resultStr = staticMethods.clobToString(Stmt.getClob(1));
+Con.close();
+return resultStr;
+}
+catch(SQLException se)
 {
-msg_id = ResultSet1.getInt(1);
-PrepStm2.setInt(1,msg_id);
-msg_link_count = 0;
+se.printStackTrace();
+return null;
+}
+catch(Exception e)
+{
+e.printStackTrace();
+return null;
+}
+}
 
-ResultSet ResultSet2 = PrepStm2.executeQuery();
+//Обновить список сообщений для указанного id собеседника
+public void UpdateMessagesList (Integer second_contact_id)
+{
+removeAllItems();
+RecordCount = 0;
+setPageLength(0);
+
+try
+{
+Document XMLDocument = staticMethods.loadXMLFromString(GetMessagesListString(second_contact_id));
+
+//Список узлов <message>
+NodeList NodeListMessages = XMLDocument.getElementsByTagName("message");
+
+String message_id;
+
+//Цикл по узлам <message>
+for (int i = 0; i < NodeListMessages.getLength(); i++)
+{
+Element Element1 = (Element) NodeListMessages.item(i);
+message_id = Element1.getElementsByTagName("message_id").item(0).getTextContent();
+Node node_second_name= Element1.getElementsByTagName("second_name").item(0);
+Node node_first_name= Element1.getElementsByTagName("first_name").item(0);
+Node node_middle_name= Element1.getElementsByTagName("middle_name").item(0);
+Node node_message_text= Element1.getElementsByTagName("message_text").item(0);
+Node node_message_date= Element1.getElementsByTagName("message_date").item(0);
+Node node_to_user_id= Element1.getElementsByTagName("to_user_id").item(0);
+Node node_user_photo_link= Element1.getElementsByTagName("user_photo_link").item(0);
+String StrFIO = node_second_name.getTextContent() + " " + node_first_name.getTextContent() + " " + node_middle_name.getTextContent();
+String Strpath = "/messages/message[message_id = "+ "'" +   message_id +  "'" +"]/links";
+
+//External links
+XPathFactory xpathFactory = XPathFactory.newInstance();
+XPath xpath = xpathFactory.newXPath();
+
+/* Узел <links> </links> для текущего сообщения */
+NodeList NodeListLinks = (NodeList) xpath.evaluate(Strpath, XMLDocument,   XPathConstants.NODESET);
+Integer msg_link_count = 0;
+
 VerticalLayout LinkLayout = new VerticalLayout();
 
-// Loop по ссылкам соообщения
-String msg_link_url;
-String msg_link_title;
+//Список <LINK_URL> <LINK_TITLE> текущего сообщения
+NodeList NodeLinksData = NodeListLinks.item(0).getChildNodes();
 
-while (ResultSet2.next())
+String link_url="" ;
+String link_title="" ;
+
+// Проходим по списку элементов
+for (int k = 0; k < NodeLinksData.getLength(); k++)
+{
+
+//Если текущий элемент - <LINK_URL>, то сохраняем значение элемента в link_url
+if (NodeLinksData.item(k).getNodeName().equals("LINK_URL"))
+{
+link_url = NodeLinksData.item(k).getTextContent();
+}
+
+//Если текущий элемент - <LINK_TITLE>, то сохраняем значение элемента в link_title
+if (NodeLinksData.item(k).getNodeName().equals("LINK_TITLE"))
+{
+link_title = NodeLinksData.item(k).getTextContent();
+}
+
+//На четных шагах прохода по циклу анализируем link_url и  link_title
+//К данному шагу они уже определены
+if ((k+1)%2 == 0)
+{
+
+//Если есть URL и описание ссылки - добавляем ссылку в список
+if ((!link_url.equals( "")) && (!link_title.equals("") ))
 {
 msg_link_count = msg_link_count + 1;
-msg_link_url = ResultSet2.getString(1);
-msg_link_title = ResultSet2.getString(2);
-Link ExtLink = new Link(msg_link_title,new ExternalResource(msg_link_url));
+Link ExtLink = new Link(link_title, new ExternalResource(link_url));
 ExtLink.setTargetName("_blank");
 LinkLayout.addComponent(ExtLink);
 }
-
-ResultSet2.close();
+}
+}
+//External links
 
 if (msg_link_count == 0)
 {
 LinkLayout = null;
 }
 
-msg_from_fio = ResultSet1.getString(2);
-msg_text = ResultSet1.getString(3);
-msg_date_text = DATE_FORMAT.format(ResultSet1.getTimestamp(4).getTime());
-
-if (ResultSet1.getInt(5) == 1)
-{
-msg_incoming = true;
-}
-else
-{
-msg_incoming = false;
+MessageItem NewMessage = new MessageItem(node_user_photo_link.getTextContent() ,node_message_text.getTextContent() ,StrFIO ,node_message_date.getTextContent(), LinkLayout , (Integer.valueOf(node_to_user_id.getTextContent()).equals( TempClass.current_user_id )));
+AddMessage(NewMessage);
 }
 
-ThemeResource ThemeResource1 = new ThemeResource( ResultSet1.getString(6));
-MessageItem Mesg = new MessageItem(ThemeResource1, msg_text, msg_from_fio, msg_date_text, LinkLayout, msg_incoming);
-AddMessage(Mesg);
 }
-ResultSet1.close();
-PrepStm1.close();
-PrepStm2.close();
-
-} //try for connection
-
-catch (SQLException SQLe)
+catch (Exception ex)
 {
-SQLe.printStackTrace();
-}
-catch (Exception e1)
-{
-e1.printStackTrace();
-}
-
-finally
-{
-if (Connection1 != null)
-
-try
-{
-Connection1.close();
-}
-catch (Exception e2)
-{
-e2.printStackTrace();
+ex.printStackTrace();
 }
 }
-
-} // UpdateMessagesList
 
 }

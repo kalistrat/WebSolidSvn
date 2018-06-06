@@ -1,5 +1,6 @@
 package com.pkgChatLayout;
 
+import com.staticMethods;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
@@ -8,6 +9,16 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.themes.ValoTheme;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Types;
 
 /**
 * Created by Dmitriy on 07.01.2018.
@@ -25,9 +36,6 @@ public IndexedContainer SelectedContactsContainer;
 
 //Связанный контейнер
 IndexedContainer ActiveContainer;
-
-//Таблица которая будет обновляться после клика в контакт-листе
-MessageListTable RelMessageListTable;
 
 public ContactListTable ()
 {
@@ -70,6 +78,9 @@ setSelectable(true);
 setImmediate(true);
 
 ActiveContainer = AllContactsContainer;
+
+GetFullContactListXML();
+
 addValueChangeListener(new Property.ValueChangeListener()
 {
 @Override public void valueChange(Property.ValueChangeEvent valueChangeEvent)
@@ -87,13 +98,65 @@ Integer SubjectId = Integer.valueOf(ActiveContainer.getContainerProperty(IntRowN
 TempClass.second_user_id = SubjectId;
 
 //Обновляем список сообщений
-RelMessageListTable.UpdateMessagesList(SubjectId);
+TempClass.RelMessageListTable.UpdateMessagesList(SubjectId);
 }
 }
-});
+}
+);
 
 }
 
+private String GetFullContactListXML()
+{
+try
+{
+Class.forName(staticMethods.JDBC_DRIVER);
+Connection Con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
+CallableStatement Stmt = Con.prepareCall("{? = call solid.pkg_contactlist.f_getfullcontactlistxml(?)}");
+Stmt.registerOutParameter(1, Types.CLOB);
+Stmt.setInt(2,TempClass.current_user_id);
+Stmt.execute();
+String resultStr = staticMethods.clobToString(Stmt.getClob(1));
+Con.close();
+return resultStr;
+}
+catch(SQLException se)
+{
+se.printStackTrace();
+return null;
+}
+catch(Exception e)
+{
+e.printStackTrace();
+return null;
+}
+
+}
+
+
+public void GetContactList()
+{
+try
+{
+Document XMLDocument = staticMethods.loadXMLFromString(GetFullContactListXML());
+NodeList nodes = XMLDocument.getElementsByTagName("contact");
+for (int i = 0; i < nodes.getLength(); i++)
+{
+
+Element element = (Element) nodes.item(i);
+Node node_user_id = element.getElementsByTagName("user_id").item(0);
+Node node_fio = element.getElementsByTagName("fio").item(0);
+Node node_user_photo_link = element.getElementsByTagName("user_photo_link").item(0);
+AddContactItem(node_fio.getTextContent(), node_user_photo_link.getTextContent(), Integer.valueOf(node_user_id.getTextContent()));
+}
+
+}
+catch (Exception ex)
+{
+ex.printStackTrace();
+}
+
+}
 
 public Integer GetRecordCount()
 {
