@@ -91,6 +91,7 @@ public class loginView extends CustomComponent implements View {
                     }
 
                     TempClass.current_user_id = GetUserIdStmt.getInt(1);
+                    TempClass.second_user_id = null;
 
                     conn.close();
                 } catch(SQLException SQLe){

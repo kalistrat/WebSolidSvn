@@ -14,4 +14,7 @@ public static String FolderSeparateCharacter;
 
 //MessageListTable которую будем обновлять после фильтрации в ContactListTable
 public static MessageListTable RelMessageListTable;
+
+//ID нового сообщения
+public static Integer NewMessageID;
 }
