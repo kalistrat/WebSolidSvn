@@ -51,3 +51,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 target
+
+# Upload folder
+src/main/webapp/uploads
+src/main/webapp/uploads/
