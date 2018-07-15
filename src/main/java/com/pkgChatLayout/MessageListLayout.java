@@ -146,9 +146,14 @@ Upload1.setButtonCaption(null);
 
 Upload1.addStartedListener(new Upload.StartedListener()
 {
+Integer MaximumFileUploadSizeInBytes = 10485760;
 @Override public void uploadStarted(Upload.StartedEvent startedEvent)
 {
-
+if (startedEvent.getContentLength() > MaximumFileUploadSizeInBytes)
+{
+Upload1.interruptUpload();
+Notification.show("Максимальный размер файла - 10Мб.",  null,   Notification.Type.HUMANIZED_MESSAGE);
+}
 }
 });
 
