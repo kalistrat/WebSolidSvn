@@ -3,23 +3,27 @@ package com.pkgChatLayout;
 import com.staticMethods;
 
 import com.vaadin.server.VaadinService;
-import com.vaadin.ui.*;
-
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.Upload;
+import com.vaadin.ui.VerticalLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Types;
-
 
 /**
 * Created by Dmitriy on 24.06.2018.
 */
 
-/**Writes to nowhere*/
 
 public class MessageListLayout extends VerticalLayout
 {
@@ -29,8 +33,13 @@ String sfilepath;
 //Имя загруженного файла
 String sfilename;
 
-Boolean KnownInterruptReason;
 Upload Upload1;
+
+Boolean KnownInterruptReason = false;
+Boolean Interrupted = false;
+
+//Если True, то загруженный файл надо удалить
+Boolean DeleteUploadedFile = false;
 
 public MessageListLayout()
 {
@@ -62,28 +71,24 @@ hlayout22.addComponent(MsgListTable1);
 /* hlayout23 */
 
 Button SendMessageButton = new Button("Отправить");
-
 TextArea MessageTextArea = new TextArea();
 MessageTextArea.setWidth("100%");
 MessageTextArea.setRows(1);
 //MessageTextArea.setSizeFull();
 
-
-
 /* UploadReceiver - BEGIN */
-
 class UploadReceiver implements Upload.Receiver, Upload.SucceededListener
 ,Upload.StartedListener
 {
 
 public void uploadStarted(Upload.StartedEvent event)
 {
-
+// Handled by Upload component
 }
 
 public void uploadSucceeded(Upload.SucceededEvent event)
 {
-//handled by Upload component
+// Handled by Upload component
 }
 
 public OutputStream receiveUpload(String filename, String mimeType)
@@ -124,7 +129,6 @@ catch (final java.io.FileNotFoundException e)
 {
 Notification.show("Ошибка открытия файла","Ошибка открытия файла " + filename, Notification.Type.ERROR_MESSAGE);
 return new NullOutputStream();
-//return null;
 }
 }
 return null;
@@ -147,12 +151,22 @@ Upload1.setButtonCaption(null);
 Upload1.addStartedListener(new Upload.StartedListener()
 {
 Integer MaximumFileUploadSizeInBytes = 10485760;
+
 @Override public void uploadStarted(Upload.StartedEvent startedEvent)
 {
 if (startedEvent.getContentLength() > MaximumFileUploadSizeInBytes)
 {
+DeleteUploadedFile = true;
 Upload1.interruptUpload();
 Notification.show("Максимальный размер файла - 10Мб.",  null,   Notification.Type.HUMANIZED_MESSAGE);
+/*
+Удаление большого файла сделаем отдельным джобом/приложением
+Если делать удаление в Upload1.addFinishedListener то получаем ошибки  NullPointerException NullOutputStreamException
+*/
+}
+else
+{
+DeleteUploadedFile = false;
 }
 }
 });
@@ -161,9 +175,105 @@ Upload1.addFailedListener(new Upload.FailedListener()
 {
 @Override public void uploadFailed(Upload.FailedEvent failedEvent)
 {
+System.out.println("uploadFailed");
+if (sfilepath.equals(null))
+{
+return;
+}
+
+try
+{
+Connection con;
+Class.forName(staticMethods.JDBC_DRIVER);
+con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
+PreparedStatement Stmt1 = con.prepareCall("call solid.pkg_external_link.f_add_external_link(?,?,?,?)");
+Stmt1.setInt(1, TempClass.NewMessageID);
+Stmt1.setString(2, sfilepath);
+Stmt1.setString(3, sfilename);
+
+if (DeleteUploadedFile)
+{
+Stmt1.setString(4, "N");
+}
+else
+{
+Stmt1.setString(4, "Y");
+}
+
+Stmt1.execute();
+con.close();
+sfilepath = null;
+sfilename = null;
+Interrupted = false;
+KnownInterruptReason = true;
+DeleteUploadedFile = false;
+MsgListTable1.UpdateMessagesList(TempClass.second_user_id);
+}
+catch (Exception exp)
+{
+exp.printStackTrace();
+KnownInterruptReason = true;
+Interrupted = false;
+DeleteUploadedFile = false;
+
+sfilepath = null;
+sfilename = null;
+}
 
 }
-})
+});
+
+
+Upload1.addSucceededListener(new Upload.SucceededListener()
+{
+@Override public void uploadSucceeded(Upload.SucceededEvent succeededEvent)
+{
+if (sfilepath.equals(null))
+{
+return;
+}
+
+
+try
+{
+Connection con;
+Class.forName(staticMethods.JDBC_DRIVER);
+con = DriverManager.getConnection(staticMethods.DB_URL, staticMethods.USER, staticMethods.PASS);
+PreparedStatement Stmt1 = con.prepareCall("call solid.pkg_external_link.f_add_external_link(?,?,?,?)");
+Stmt1.setInt(1, TempClass.NewMessageID);
+Stmt1.setString(2, sfilepath);
+Stmt1.setString(3, sfilename);
+
+if (DeleteUploadedFile)
+{
+Stmt1.setString(4, "N");
+}
+else
+{
+Stmt1.setString(4, "Y");
+}
+
+Stmt1.execute();
+con.close();
+sfilepath = null;
+sfilename = null;
+Interrupted = false;
+KnownInterruptReason = true;
+DeleteUploadedFile = false;
+MsgListTable1.UpdateMessagesList(TempClass.second_user_id);
+}
+catch (Exception exp)
+{
+exp.printStackTrace();
+KnownInterruptReason = true;
+Interrupted = false;
+DeleteUploadedFile = false;
+
+sfilepath = null;
+sfilename = null;
+}
+}
+});
 ;
 
 /* Upload - END */
@@ -193,7 +303,7 @@ SendMessageButton.addClickListener(new Button.ClickListener()
 {
 String v_message_text = MessageTextArea.getValue();
 
-if (TempClass.second_user_id==null)
+if (TempClass.second_user_id == null)
 {
 Notification.show("Не выбран получатель сообщения",  null,   Notification.Type.HUMANIZED_MESSAGE);
 return;
@@ -232,8 +342,8 @@ catch (Exception exp)
 {
 exp.printStackTrace();
 TempClass.NewMessageID  = 0;
-
 }
+
 } // else
 
 }
