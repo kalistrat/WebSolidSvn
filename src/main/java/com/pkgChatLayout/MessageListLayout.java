@@ -32,11 +32,7 @@ String sfilepath;
 
 //Имя загруженного файла
 String sfilename;
-
 Upload Upload1;
-
-Boolean KnownInterruptReason = false;
-Boolean Interrupted = false;
 
 //Если True, то загруженный файл надо удалить
 Boolean DeleteUploadedFile = false;
@@ -175,7 +171,7 @@ Upload1.addFailedListener(new Upload.FailedListener()
 {
 @Override public void uploadFailed(Upload.FailedEvent failedEvent)
 {
-System.out.println("uploadFailed");
+
 if (sfilepath.equals(null))
 {
 return;
@@ -199,23 +195,18 @@ else
 {
 Stmt1.setString(4, "Y");
 }
-
 Stmt1.execute();
 con.close();
 sfilepath = null;
 sfilename = null;
-Interrupted = false;
-KnownInterruptReason = true;
+
 DeleteUploadedFile = false;
 MsgListTable1.UpdateMessagesList(TempClass.second_user_id);
 }
 catch (Exception exp)
 {
 exp.printStackTrace();
-KnownInterruptReason = true;
-Interrupted = false;
 DeleteUploadedFile = false;
-
 sfilepath = null;
 sfilename = null;
 }
@@ -233,7 +224,6 @@ if (sfilepath.equals(null))
 return;
 }
 
-
 try
 {
 Connection con;
@@ -257,18 +247,13 @@ Stmt1.execute();
 con.close();
 sfilepath = null;
 sfilename = null;
-Interrupted = false;
-KnownInterruptReason = true;
 DeleteUploadedFile = false;
 MsgListTable1.UpdateMessagesList(TempClass.second_user_id);
 }
 catch (Exception exp)
 {
 exp.printStackTrace();
-KnownInterruptReason = true;
-Interrupted = false;
 DeleteUploadedFile = false;
-
 sfilepath = null;
 sfilename = null;
 }
@@ -315,8 +300,6 @@ Notification.show("Не указан текст сообщения",  null,   No
 return;
 }
 
-else
-{
 Integer v_from_user_id = TempClass.current_user_id;
 Integer v_to_user_id = TempClass.second_user_id;
 Connection con;
@@ -336,15 +319,12 @@ con.close();
 MessageTextArea.clear();
 Upload1.submitUpload();
 MsgListTable1.UpdateMessagesList(TempClass.second_user_id);
-
 }
 catch (Exception exp)
 {
 exp.printStackTrace();
 TempClass.NewMessageID  = 0;
 }
-
-} // else
 
 }
 });

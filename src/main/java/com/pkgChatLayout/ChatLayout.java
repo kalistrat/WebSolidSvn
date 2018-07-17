@@ -25,5 +25,4 @@ HrSplitPanel.setSplitPosition(20, Unit.PERCENTAGE);
 
 addComponent(HrSplitPanel);
 }
-
 }

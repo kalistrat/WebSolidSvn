@@ -170,10 +170,10 @@ if (msg_link_count == 0)
 {
 LinkLayout = null;
 }
-
 MessageItem NewMessage = new MessageItem(node_user_photo_link.getTextContent() ,node_message_text.getTextContent() ,StrFIO ,node_message_date.getTextContent(), LinkLayout , (Integer.valueOf(node_to_user_id.getTextContent()).equals( TempClass.current_user_id )));
 AddMessage(NewMessage);
 }
+//Цикл по узлам <message>
 
 }
 catch (Exception ex)

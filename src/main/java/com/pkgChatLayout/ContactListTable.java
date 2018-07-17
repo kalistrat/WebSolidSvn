@@ -95,6 +95,7 @@ Integer IntRowNumber = Integer.valueOf(SelectedRowObject.toString());
 // id субъекта для данной записи таблицы
 Integer SubjectId = Integer.valueOf(ActiveContainer.getContainerProperty(IntRowNumber, "SubjectId").getValue().toString());
 
+//id второго контакта
 TempClass.second_user_id = SubjectId;
 
 //Обновляем список сообщений
@@ -130,9 +131,7 @@ catch(Exception e)
 e.printStackTrace();
 return null;
 }
-
 }
-
 
 public void GetContactList()
 {
@@ -140,9 +139,9 @@ try
 {
 Document XMLDocument = staticMethods.loadXMLFromString(GetFullContactListXML());
 NodeList nodes = XMLDocument.getElementsByTagName("contact");
+
 for (int i = 0; i < nodes.getLength(); i++)
 {
-
 Element element = (Element) nodes.item(i);
 Node node_user_id = element.getElementsByTagName("user_id").item(0);
 Node node_fio = element.getElementsByTagName("fio").item(0);
