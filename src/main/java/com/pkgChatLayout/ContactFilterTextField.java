@@ -12,6 +12,7 @@ public class ContactFilterTextField extends TextField
 //ContactListTable которую будем обновлять
 public ContactListTable RelContactListTable;
 
+//Фильтр по контактам
 public void FilterContactlist()
 {
 String SearchFIO = getValue().toLowerCase();
