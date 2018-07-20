@@ -12,6 +12,7 @@ public class ContactFilterTextField extends TextField
 //ContactListTable которую будем обновлять
 public ContactListTable RelContactListTable;
 
+//Фильтр по контактам
 public void FilterContactlist()
 {
 String SearchFIO = getValue().toLowerCase();
@@ -29,7 +30,7 @@ FIO = RelContactListTable.AllContactsContainer.getContainerProperty(i, "FIO").ge
 Photopath = RelContactListTable.AllContactsContainer.getContainerProperty(i, "ContactPicturePath").getValue().toString();
 SubjectId = Integer.valueOf(RelContactListTable.AllContactsContainer.getContainerProperty(i, "SubjectId").getValue().toString());
 
-if (FIO.toLowerCase().indexOf(SearchFIO) > -1)
+if (FIO.toLowerCase().contains(SearchFIO) )
 {
 RelContactListTable.AddContactItem(FIO,Photopath,SubjectId);
 }
